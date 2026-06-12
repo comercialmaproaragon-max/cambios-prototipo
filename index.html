@@ -98,6 +98,7 @@
   <section class="vista activa" id="vista-lista">
     <div id="lista-proyectos"></div>
     <button class="btn btn-pri" id="btn-nuevo">+ Nueva revisión</button>
+    <div style="text-align:center; font-size:11px; color:#b0b0b4; margin-top:18px">versión 6</div>
   </section>
 
   <!-- FORMULARIO REVISIÓN (alta y edición) -->
@@ -742,7 +743,19 @@ $('#btn-compartir').onclick = async () => {
 
 /* ---------- Utilidades y arranque ---------- */
 function esc(t){ const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+if ('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    reg.update();                                   // busca versión nueva en cada arranque
+    setInterval(() => reg.update(), 60 * 60 * 1000); // y cada hora si la app sigue abierta
+  });
+  // Cuando se activa una versión nueva, recarga para aplicarla al momento
+  let recargado = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (recargado) return;
+    recargado = true;
+    location.reload();
+  });
+}
 abrirDB().then(d => { db = d; verLista(); }).catch(() => {
   $('#lista-proyectos').innerHTML =
     '<div class="card" style="border-left:4px solid var(--rojo)">' +
