@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#e65a1e">
+<title>Cambios Prototipo</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  :root{
+    --naranja:#e65a1e; --naranja-osc:#c44a14; --gris:#f4f4f5; --texto:#1c1c1e;
+    --borde:#e2e2e4; --rojo:#d23b2f;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  body{margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--gris); color:var(--texto)}
+  header{position:sticky; top:0; z-index:10; background:var(--naranja); color:#fff; padding:14px 16px; display:flex; align-items:center; gap:10px; box-shadow:0 1px 4px rgba(0,0,0,.18)}
+  header h1{font-size:17px; margin:0; font-weight:600; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .btn-back{background:none; border:none; color:#fff; font-size:22px; padding:0 6px 2px 0; cursor:pointer; display:none; line-height:1}
+  main{padding:14px; max-width:760px; margin:0 auto}
+  .vista{display:none}
+  .vista.activa{display:block}
+  .card{background:#fff; border-radius:12px; padding:14px; margin-bottom:10px; box-shadow:0 1px 2px rgba(0,0,0,.06)}
+  .card.clicable{cursor:pointer}
+  .card h3{margin:0 0 4px; font-size:16px}
+  .card .sub{font-size:13px; color:#6b6b70}
+  .vacio{text-align:center; color:#8e8e93; padding:48px 16px; font-size:15px}
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; border:none; border-radius:10px; padding:13px 18px; font-size:15px; font-weight:600; cursor:pointer; width:100%; margin-top:8px}
+  .btn-pri{background:var(--naranja); color:#fff}
+  .btn-pri:active{background:var(--naranja-osc)}
+  .btn-sec{background:#fff; color:var(--naranja); border:1.5px solid var(--naranja)}
+  .btn-peligro{background:none; color:var(--rojo); border:none; font-size:14px; font-weight:600; padding:12px; width:100%; cursor:pointer}
+  label{display:block; font-size:13px; font-weight:600; margin:12px 0 4px; color:#48484d}
+  input[type=text], textarea{width:100%; padding:11px 12px; font-size:16px; border:1.5px solid var(--borde); border-radius:10px; background:#fff; font-family:inherit}
+  input:focus, textarea:focus{outline:none; border-color:var(--naranja)}
+  textarea{resize:vertical; min-height:72px}
+  .ficha{font-size:13.5px; color:#48484d; line-height:1.55}
+  .ficha b{color:var(--texto)}
+  /* foto */
+  .foto-wrap{position:relative; border-radius:12px; overflow:hidden; background:#000; touch-action:manipulation}
+  .foto-wrap img{display:block; width:100%; height:auto}
+  .marca{position:absolute; width:30px; height:30px; margin:-15px 0 0 -15px; border-radius:50%; background:var(--naranja); border:2.5px solid #fff; color:#fff; font-size:14px; font-weight:700; display:flex; align-items:center; justify-content:center; box-shadow:0 1px 4px rgba(0,0,0,.45); cursor:pointer}
+  .ayuda{font-size:13px; color:#8e8e93; text-align:center; margin:10px 0 4px}
+  .cambio-item{display:flex; gap:10px; align-items:flex-start; padding:11px 0; border-bottom:1px solid var(--borde)}
+  .cambio-item:last-child{border-bottom:none}
+  .cambio-num{flex-shrink:0; width:24px; height:24px; border-radius:50%; background:var(--naranja); color:#fff; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px}
+  .cambio-num.sin{background:#8e8e93}
+  .cambio-txt{flex:1; font-size:14.5px; line-height:1.45}
+  .miniatura{width:100%; border-radius:10px; display:block}
+  .mini-card{padding:10px}
+  .mini-card .sub{margin-top:8px}
+  /* modal */
+  .overlay{position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; z-index:50; align-items:flex-end; justify-content:center}
+  .overlay.activa{display:flex}
+  .hoja{background:#fff; width:100%; max-width:560px; border-radius:16px 16px 0 0; padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+  .hoja h3{margin:0 0 4px; font-size:16px}
+  .fila-btns{display:flex; gap:10px}
+  .fila-btns .btn{margin-top:14px}
+  #estado-export{font-size:13px; color:#8e8e93; text-align:center; margin-top:8px; min-height:18px}
+</style>
+</head>
+<body>
+<header>
+  <button class="btn-back" id="btn-back" aria-label="Volver">&#8249;</button>
+  <h1 id="titulo">Cambios Prototipo</h1>
+</header>
+<main>
+
+  <!-- LISTA DE REVISIONES -->
+  <section class="vista activa" id="vista-lista">
+    <div id="lista-proyectos"></div>
+    <button class="btn btn-pri" id="btn-nuevo">+ Nueva revisión</button>
+  </section>
+
+  <!-- FORMULARIO NUEVA REVISIÓN -->
+  <section class="vista" id="vista-form">
+    <div class="card">
+      <label>MPR del proyecto</label>
+      <input type="text" id="f-mpr" placeholder="MPR-1234" autocapitalize="characters">
+      <label>Nombre del contenedor</label>
+      <input type="text" id="f-nombre" placeholder="Contenedor 15/27 con puerta">
+      <label>Dimensiones</label>
+      <input type="text" id="f-dim" placeholder="1200 x 1000 x 990">
+      <label>Cliente</label>
+      <input type="text" id="f-cliente" placeholder="Nombre del cliente">
+      <label>Fecha de revisión</label>
+      <input type="text" id="f-fecha">
+    </div>
+    <button class="btn btn-pri" id="btn-guardar-proy">Guardar revisión</button>
+  </section>
+
+  <!-- DETALLE DE REVISIÓN -->
+  <section class="vista" id="vista-proyecto">
+    <div class="card"><div class="ficha" id="ficha-proyecto"></div></div>
+    <div id="lista-fotos"></div>
+    <input type="file" id="input-foto" accept="image/*" capture="environment" hidden>
+    <button class="btn btn-pri" id="btn-foto">📷 Añadir foto</button>
+    <button class="btn btn-sec" id="btn-export">Generar Word</button>
+    <button class="btn btn-sec" id="btn-compartir" style="display:none">Compartir Word</button>
+    <div id="estado-export"></div>
+    <button class="btn-peligro" id="btn-borrar-proy">Eliminar esta revisión</button>
+  </section>
+
+  <!-- DETALLE DE FOTO -->
+  <section class="vista" id="vista-foto">
+    <div class="foto-wrap" id="foto-wrap"><img id="foto-img" alt="Foto del prototipo"></div>
+    <p class="ayuda">Toca sobre la foto para añadir una marca numerada con su modificación.</p>
+    <div class="card" id="card-cambios"><div id="lista-cambios"></div></div>
+    <button class="btn btn-sec" id="btn-cambio-libre">+ Cambio sin marca en foto</button>
+    <button class="btn-peligro" id="btn-borrar-foto">Eliminar esta foto</button>
+  </section>
+
+</main>
+
+<!-- MODAL CAMBIO -->
+<div class="overlay" id="modal">
+  <div class="hoja">
+    <h3 id="modal-titulo">Modificación</h3>
+    <label>Describe el cambio</label>
+    <textarea id="modal-texto" placeholder="Ej.: eliminar refuerzo lateral y bajar asa 50 mm"></textarea>
+    <div class="fila-btns">
+      <button class="btn btn-sec" id="modal-cancelar">Cancelar</button>
+      <button class="btn btn-pri" id="modal-guardar">Guardar</button>
+    </div>
+    <button class="btn-peligro" id="modal-borrar" style="display:none">Eliminar este cambio</button>
+  </div>
+</div>
+
+<script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+let db, proyectoActual = null, fotoActual = null, marcaEditando = null, urlFotoActual = null;
+
+/* ---------- IndexedDB ---------- */
+function abrirDB(){
+  return new Promise((res, rej) => {
+    const r = indexedDB.open('cambios-prototipo', 1);
+    r.onupgradeneeded = e => {
+      const d = e.target.result;
+      d.createObjectStore('proyectos', {keyPath:'id'});
+      const f = d.createObjectStore('fotos', {keyPath:'id'});
+      f.createIndex('porProyecto', 'proyectoId');
+    };
+    r.onsuccess = e => res(e.target.result);
+    r.onerror = () => rej(r.error);
+  });
+}
+const tx = (store, modo, fn) => new Promise((res, rej) => {
+  const t = db.transaction(store, modo);
+  const req = fn(t.objectStore(store));
+  req.onsuccess = () => res(req.result);
+  req.onerror = () => rej(req.error);
+});
+const guardar  = (store, obj) => tx(store, 'readwrite', s => s.put(obj));
+const borrar   = (store, id)  => tx(store, 'readwrite', s => s.delete(id));
+const obtener  = (store, id)  => tx(store, 'readonly',  s => s.get(id));
+const todos    = store        => tx(store, 'readonly',  s => s.getAll());
+const fotosDe  = pid => new Promise((res, rej) => {
+  const req = db.transaction('fotos').objectStore('fotos').index('porProyecto').getAll(pid);
+  req.onsuccess = () => res(req.result.sort((a,b) => a.creada - b.creada));
+  req.onerror = () => rej(req.error);
+});
+
+/* ---------- Navegación ---------- */
+function mostrar(vista, titulo){
+  document.querySelectorAll('.vista').forEach(v => v.classList.remove('activa'));
+  $('#vista-' + vista).classList.add('activa');
+  $('#titulo').textContent = titulo;
+  $('#btn-back').style.display = vista === 'lista' ? 'none' : 'block';
+  window.scrollTo(0, 0);
+}
+$('#btn-back').onclick = () => {
+  if ($('#vista-foto').classList.contains('activa')) abrirProyecto(proyectoActual.id);
+  else verLista();
+};
+
+/* ---------- Lista de revisiones ---------- */
+async function verLista(){
+  proyectoActual = null;
+  const lista = (await todos('proyectos')).sort((a,b) => b.creado - a.creado);
+  const cont = $('#lista-proyectos');
+  cont.innerHTML = lista.length ? '' : '<div class="vacio">No hay revisiones todavía.<br>Crea la primera con el botón de abajo.</div>';
+  for (const p of lista){
+    const div = document.createElement('div');
+    div.className = 'card clicable';
+    div.innerHTML = `<h3></h3><div class="sub"></div>`;
+    div.querySelector('h3').textContent = `${p.mpr} — ${p.nombre}`;
+    div.querySelector('.sub').textContent = `${p.cliente ? p.cliente + ' · ' : ''}${p.fecha}`;
+    div.onclick = () => abrirProyecto(p.id);
+    cont.appendChild(div);
+  }
+  mostrar('lista', 'Cambios Prototipo');
+}
+
+/* ---------- Nueva revisión ---------- */
+$('#btn-nuevo').onclick = () => {
+  ['f-mpr','f-nombre','f-dim','f-cliente'].forEach(id => $('#' + id).value = '');
+  $('#f-fecha').value = new Date().toLocaleDateString('es-ES');
+  mostrar('form', 'Nueva revisión');
+};
+$('#btn-guardar-proy').onclick = async () => {
+  const mpr = $('#f-mpr').value.trim(), nombre = $('#f-nombre').value.trim();
+  if (!mpr || !nombre){ alert('Indica al menos el MPR y el nombre del contenedor.'); return; }
+  const p = {
+    id: crypto.randomUUID(), mpr, nombre,
+    dimensiones: $('#f-dim').value.trim(), cliente: $('#f-cliente').value.trim(),
+    fecha: $('#f-fecha').value.trim() || new Date().toLocaleDateString('es-ES'),
+    creado: Date.now()
+  };
+  await guardar('proyectos', p);
+  abrirProyecto(p.id);
+};
+
+/* ---------- Detalle de revisión ---------- */
+async function abrirProyecto(id){
+  proyectoActual = await obtener('proyectos', id);
+  fotoActual = null;
+  const p = proyectoActual;
+  $('#ficha-proyecto').innerHTML =
+    `<b>MPR:</b> ${esc(p.mpr)}<br><b>Contenedor:</b> ${esc(p.nombre)}<br>` +
+    (p.dimensiones ? `<b>Dimensiones:</b> ${esc(p.dimensiones)}<br>` : '') +
+    (p.cliente ? `<b>Cliente:</b> ${esc(p.cliente)}<br>` : '') +
+    `<b>Fecha:</b> ${esc(p.fecha)}`;
+  const fotos = await fotosDe(id);
+  const cont = $('#lista-fotos');
+  cont.innerHTML = fotos.length ? '' : '<div class="vacio">Sin fotos. Añade la primera foto del prototipo.</div>';
+  fotos.forEach((f, i) => {
+    const div = document.createElement('div');
+    div.className = 'card clicable mini-card';
+    const img = document.createElement('img');
+    img.className = 'miniatura';
+    img.src = URL.createObjectURL(f.blob);
+    img.onload = () => URL.revokeObjectURL(img.src);
+    const sub = document.createElement('div');
+    sub.className = 'sub';
+    sub.textContent = `Foto ${i + 1} · ${f.marcas.length} cambio${f.marcas.length === 1 ? '' : 's'}`;
+    div.append(img, sub);
+    div.onclick = () => abrirFoto(f.id);
+    cont.appendChild(div);
+  });
+  $('#btn-compartir').style.display = (navigator.canShare ? 'inline-flex' : 'none');
+  $('#estado-export').textContent = '';
+  mostrar('proyecto', p.mpr);
+}
+$('#btn-foto').onclick = () => $('#input-foto').click();
+$('#input-foto').onchange = async e => {
+  const archivo = e.target.files[0];
+  e.target.value = '';
+  if (!archivo) return;
+  const blob = await reducirImagen(archivo, 1600);
+  const f = { id: crypto.randomUUID(), proyectoId: proyectoActual.id, blob, marcas: [], creada: Date.now() };
+  await guardar('fotos', f);
+  abrirFoto(f.id);
+};
+$('#btn-borrar-proy').onclick = async () => {
+  if (!confirm('¿Eliminar esta revisión y todas sus fotos?')) return;
+  for (const f of await fotosDe(proyectoActual.id)) await borrar('fotos', f.id);
+  await borrar('proyectos', proyectoActual.id);
+  verLista();
+};
+
+/* Reduce la foto a un ancho máximo para no llenar el almacenamiento del móvil */
+function reducirImagen(archivo, maxLado){
+  return new Promise(res => {
+    const img = new Image();
+    img.onload = () => {
+      const escala = Math.min(1, maxLado / Math.max(img.width, img.height));
+      if (escala === 1 && archivo.type === 'image/jpeg'){ res(archivo); return; }
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * escala);
+      c.height = Math.round(img.height * escala);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      c.toBlob(b => res(b || archivo), 'image/jpeg', 0.88);
+    };
+    img.onerror = () => res(archivo);
+    img.src = URL.createObjectURL(archivo);
+  });
+}
+
+/* ---------- Detalle de foto ---------- */
+async function abrirFoto(id){
+  fotoActual = await obtener('fotos', id);
+  if (urlFotoActual) URL.revokeObjectURL(urlFotoActual);
+  urlFotoActual = URL.createObjectURL(fotoActual.blob);
+  $('#foto-img').src = urlFotoActual;
+  pintarMarcas();
+  pintarCambios();
+  mostrar('foto', 'Foto y cambios');
+}
+function pintarMarcas(){
+  document.querySelectorAll('.marca').forEach(m => m.remove());
+  const wrap = $('#foto-wrap');
+  fotoActual.marcas.forEach((m, i) => {
+    if (m.x == null) return;
+    const div = document.createElement('div');
+    div.className = 'marca';
+    div.textContent = i + 1;
+    div.style.left = (m.x * 100) + '%';
+    div.style.top = (m.y * 100) + '%';
+    div.onclick = ev => { ev.stopPropagation(); editarMarca(i); };
+    wrap.appendChild(div);
+  });
+}
+function pintarCambios(){
+  const cont = $('#lista-cambios');
+  cont.innerHTML = fotoActual.marcas.length ? '' : '<div class="vacio" style="padding:18px">Sin cambios anotados.</div>';
+  fotoActual.marcas.forEach((m, i) => {
+    const div = document.createElement('div');
+    div.className = 'cambio-item';
+    div.innerHTML = `<div class="cambio-num ${m.x == null ? 'sin' : ''}">${m.x == null ? '·' : i + 1}</div><div class="cambio-txt"></div>`;
+    div.querySelector('.cambio-txt').textContent = m.texto;
+    div.onclick = () => editarMarca(i);
+    cont.appendChild(div);
+  });
+}
+$('#foto-wrap').onclick = e => {
+  const img = $('#foto-img');
+  const r = img.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+  if (x < 0 || x > 1 || y < 0 || y > 1) return;
+  marcaEditando = { nueva: true, x, y };
+  abrirModal('Nueva marca', '');
+};
+$('#btn-cambio-libre').onclick = () => {
+  marcaEditando = { nueva: true, x: null, y: null };
+  abrirModal('Cambio sin marca', '');
+};
+function editarMarca(i){
+  marcaEditando = { nueva: false, indice: i };
+  abrirModal('Editar cambio', fotoActual.marcas[i].texto, true);
+}
+$('#btn-borrar-foto').onclick = async () => {
+  if (!confirm('¿Eliminar esta foto y sus cambios?')) return;
+  await borrar('fotos', fotoActual.id);
+  abrirProyecto(proyectoActual.id);
+};
+
+/* ---------- Modal ---------- */
+function abrirModal(titulo, texto, conBorrar){
+  $('#modal-titulo').textContent = titulo;
+  $('#modal-texto').value = texto;
+  $('#modal-borrar').style.display = conBorrar ? 'block' : 'none';
+  $('#modal').classList.add('activa');
+  setTimeout(() => $('#modal-texto').focus(), 50);
+}
+function cerrarModal(){ $('#modal').classList.remove('activa'); marcaEditando = null; }
+$('#modal-cancelar').onclick = cerrarModal;
+$('#modal').onclick = e => { if (e.target === $('#modal')) cerrarModal(); };
+$('#modal-guardar').onclick = async () => {
+  const texto = $('#modal-texto').value.trim();
+  if (!texto){ alert('Escribe la descripción del cambio.'); return; }
+  if (marcaEditando.nueva) fotoActual.marcas.push({ x: marcaEditando.x, y: marcaEditando.y, texto });
+  else fotoActual.marcas[marcaEditando.indice].texto = texto;
+  await guardar('fotos', fotoActual);
+  cerrarModal(); pintarMarcas(); pintarCambios();
+};
+$('#modal-borrar').onclick = async () => {
+  fotoActual.marcas.splice(marcaEditando.indice, 1);
+  await guardar('fotos', fotoActual);
+  cerrarModal(); pintarMarcas(); pintarCambios();
+};
+
+/* ---------- Exportar a Word ---------- */
+async function fotoConMarcas(f){
+  // Devuelve {arrayBuffer, ancho, alto} de la foto con las marcas dibujadas encima
+  const img = await new Promise((res, rej) => {
+    const i = new Image();
+    i.onload = () => res(i);
+    i.onerror = rej;
+    i.src = URL.createObjectURL(f.blob);
+  });
+  const c = document.createElement('canvas');
+  c.width = img.width; c.height = img.height;
+  const g = c.getContext('2d');
+  g.drawImage(img, 0, 0);
+  URL.revokeObjectURL(img.src);
+  const radio = Math.max(16, c.width * 0.022);
+  let n = 0;
+  for (const m of f.marcas){
+    if (m.x == null) continue;
+    n++;
+    const cx = m.x * c.width, cy = m.y * c.height;
+    g.beginPath(); g.arc(cx, cy, radio, 0, Math.PI * 2);
+    g.fillStyle = '#e65a1e'; g.fill();
+    g.lineWidth = radio * 0.16; g.strokeStyle = '#fff'; g.stroke();
+    g.fillStyle = '#fff';
+    g.font = `bold ${radio * 1.15}px sans-serif`;
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText(String(n), cx, cy + radio * 0.05);
+  }
+  const blob = await new Promise(res => c.toBlob(res, 'image/jpeg', 0.85));
+  return { datos: await blob.arrayBuffer(), ancho: c.width, alto: c.height };
+}
+
+async function generarWord(){
+  const { Document, Packer, Paragraph, TextRun, ImageRun, AlignmentType } = docx;
+  const p = proyectoActual;
+  const fotos = await fotosDe(p.id);
+  if (!fotos.length){ alert('Añade al menos una foto antes de generar el Word.'); return null; }
+  $('#estado-export').textContent = 'Generando documento…';
+
+  const hijos = [
+    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 60 },
+      children: [new TextRun({ text: 'MODIFICACIONES PROTOTIPO', bold: true, size: 32 })] }),
+    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 240 },
+      children: [new TextRun({ text: `${p.mpr} — ${p.nombre}`, bold: true, size: 26 })] }),
+    new Paragraph({ spacing: { after: 60 }, children: [
+      new TextRun({ text: 'Dimensiones: ', bold: true }), new TextRun(p.dimensiones || '—') ] }),
+    new Paragraph({ spacing: { after: 60 }, children: [
+      new TextRun({ text: 'Cliente: ', bold: true }), new TextRun(p.cliente || '—') ] }),
+    new Paragraph({ spacing: { after: 300 }, children: [
+      new TextRun({ text: 'Fecha de revisión: ', bold: true }), new TextRun(p.fecha) ] })
+  ];
+
+  for (let i = 0; i < fotos.length; i++){
+    const f = fotos[i];
+    const im = await fotoConMarcas(f);
+    const anchoDoc = 580;
+    hijos.push(new Paragraph({ spacing: { before: 240, after: 120 },
+      children: [new TextRun({ text: `FOTO ${i + 1}`, bold: true, size: 24 })] }));
+    hijos.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 120 },
+      children: [new ImageRun({ data: im.datos,
+        transformation: { width: anchoDoc, height: Math.round(anchoDoc * im.alto / im.ancho) } })] }));
+    let n = 0;
+    for (const m of f.marcas){
+      const etiqueta = m.x == null ? '•' : `${++n}.`;
+      hijos.push(new Paragraph({ spacing: { after: 60 }, indent: { left: 360 },
+        children: [new TextRun({ text: `${etiqueta} `, bold: true }), new TextRun(m.texto)] }));
+    }
+    if (!f.marcas.length)
+      hijos.push(new Paragraph({ indent: { left: 360 },
+        children: [new TextRun({ text: 'Sin modificaciones anotadas.', italics: true })] }));
+  }
+
+  const doc = new Document({ sections: [{ children: hijos }] });
+  const blob = await Packer.toBlob(doc);
+  const nombre = `Cambios_${p.mpr.replace(/[^\w-]+/g, '_')}_${p.fecha.replace(/\//g, '-')}.docx`;
+  $('#estado-export').textContent = '';
+  return { blob, nombre };
+}
+
+$('#btn-export').onclick = async () => {
+  try {
+    const r = await generarWord();
+    if (!r) return;
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(r.blob);
+    a.download = r.nombre;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 30000);
+    $('#estado-export').textContent = 'Word descargado: ' + r.nombre;
+  } catch (e){
+    $('#estado-export').textContent = 'Error al generar el Word: ' + e.message;
+  }
+};
+$('#btn-compartir').onclick = async () => {
+  try {
+    const r = await generarWord();
+    if (!r) return;
+    const archivo = new File([r.blob], r.nombre,
+      { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    if (navigator.canShare && navigator.canShare({ files: [archivo] }))
+      await navigator.share({ files: [archivo], title: r.nombre });
+    else
+      $('#estado-export').textContent = 'Este dispositivo no permite compartir archivos; usa "Generar Word".';
+  } catch (e){
+    if (e.name !== 'AbortError') $('#estado-export').textContent = 'Error al compartir: ' + e.message;
+  }
+};
+
+/* ---------- Utilidades y arranque ---------- */
+function esc(t){ const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+abrirDB().then(d => { db = d; verLista(); });
+</script>
+</body>
+</html>
