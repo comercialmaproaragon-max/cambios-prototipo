@@ -96,6 +96,9 @@
   <!-- FORMULARIO REVISIÓN (alta y edición) -->
   <section class="vista" id="vista-form">
     <div class="card">
+      <label>Nº de pedido</label>
+      <input type="text" id="f-pedido" placeholder="26/062">
+      <button class="btn-mini" id="btn-buscar-pedido">⌕ Rellenar todo desde el pedido</button>
       <label>MPR del proyecto</label>
       <input type="text" id="f-mpr" placeholder="MPR-1234" autocapitalize="characters">
       <label>Nombre del contenedor</label>
@@ -135,6 +138,15 @@
   </section>
 
 </main>
+
+<!-- MODAL ELECCIÓN DE CONTENEDOR DEL PEDIDO -->
+<div class="overlay" id="modal-pedido">
+  <div class="hoja">
+    <h3>Este pedido tiene varios contenedores</h3>
+    <div id="lista-opciones-pedido"></div>
+    <button class="btn-peligro" id="pedido-cancelar">Cancelar</button>
+  </div>
+</div>
 
 <!-- MODAL CAMBIO -->
 <div class="overlay" id="modal">
@@ -226,16 +238,86 @@ async function verLista(){
   mostrar('lista', 'Cambios prototipo');
 }
 
+/* ---------- Búsqueda de pedido (datos cifrados) ---------- */
+let pedidosCache = null;
+async function obtenerPedidos(){
+  if (pedidosCache) return pedidosCache;
+  let clave = localStorage.getItem('clavePedidos');
+  let recordada = !!clave;
+  if (!clave){
+    clave = prompt('Introduce la clave de Mapro para activar la búsqueda de pedidos (solo se pide una vez):');
+    if (!clave) return null;
+  }
+  const resp = await fetch('datos-pedidos.enc');
+  if (!resp.ok) throw new Error('No se pudo descargar el fichero de pedidos. Necesitas conexión la primera vez.');
+  const buf = await resp.arrayBuffer();
+  const salt = buf.slice(0, 16), nonce = buf.slice(16, 28), ct = buf.slice(28);
+  const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(clave.trim()), 'PBKDF2', false, ['deriveKey']);
+  const key = await crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt, iterations: 200000, hash: 'SHA-256' },
+    base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+  try {
+    const plano = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: nonce }, key, ct);
+    pedidosCache = JSON.parse(new TextDecoder().decode(plano));
+    localStorage.setItem('clavePedidos', clave);
+    return pedidosCache;
+  } catch (e){
+    localStorage.removeItem('clavePedidos');
+    throw new Error(recordada
+      ? 'La clave guardada ya no es válida. Vuelve a intentarlo para introducirla de nuevo.'
+      : 'Clave incorrecta.');
+  }
+}
+function normalizarPedido(t){
+  const m = String(t).match(/(\d{2})\D*(\d{1,4})/);
+  return m ? m[1] + '/' + m[2].padStart(3, '0') : null;
+}
+function aplicarPedido(it){
+  if (it.mpr) $('#f-mpr').value = it.mpr;
+  if (it.nombre) $('#f-nombre').value = it.nombre;
+  if (it.dimensiones) $('#f-dim').value = it.dimensiones;
+  if (it.cliente) $('#f-cliente').value = it.cliente;
+}
+function elegirPedido(items){
+  const cont = $('#lista-opciones-pedido');
+  cont.innerHTML = '';
+  items.forEach(it => {
+    const b = document.createElement('button');
+    b.className = 'btn btn-sec';
+    b.style.cssText = 'letter-spacing:0; font-family:inherit; font-size:14px; text-align:left';
+    b.textContent = (it.nombre || '(sin descripción)') + (it.mpr ? ' — ' + it.mpr : '');
+    b.onclick = () => { aplicarPedido(it); $('#modal-pedido').classList.remove('activa'); };
+    cont.appendChild(b);
+  });
+  $('#modal-pedido').classList.add('activa');
+}
+$('#pedido-cancelar').onclick = () => $('#modal-pedido').classList.remove('activa');
+$('#modal-pedido').onclick = e => { if (e.target === $('#modal-pedido')) $('#modal-pedido').classList.remove('activa'); };
+$('#btn-buscar-pedido').onclick = async () => {
+  try {
+    const num = normalizarPedido($('#f-pedido').value);
+    if (!num){ alert('Escribe el número de pedido, por ejemplo 26/062.'); return; }
+    const datos = await obtenerPedidos();
+    if (!datos) return;
+    const items = datos[num];
+    if (!items || !items.length){ alert('No encuentro el pedido ' + num + '.\nComprueba el número o rellena los campos a mano.'); return; }
+    $('#f-pedido').value = num;
+    if (items.length === 1) aplicarPedido(items[0]);
+    else elegirPedido(items);
+  } catch (e){ alert(e.message); }
+};
+
 /* ---------- Alta y edición de revisión ---------- */
 $('#btn-nuevo').onclick = () => {
   editandoProyectoId = null;
-  ['f-mpr','f-nombre','f-dim','f-cliente'].forEach(id => $('#' + id).value = '');
+  ['f-pedido','f-mpr','f-nombre','f-dim','f-cliente'].forEach(id => $('#' + id).value = '');
   $('#f-fecha').value = new Date().toLocaleDateString('es-ES');
   mostrar('form', 'Nueva revisión');
 };
 $('#btn-editar-proy').onclick = () => {
   const p = proyectoActual;
   editandoProyectoId = p.id;
+  $('#f-pedido').value = p.pedido || '';
   $('#f-mpr').value = p.mpr;
   $('#f-nombre').value = p.nombre;
   $('#f-dim').value = p.dimensiones;
@@ -254,6 +336,7 @@ $('#btn-guardar-proy').onclick = async () => {
   } else {
     p = { id: uuid(), creado: Date.now() };
   }
+  p.pedido = $('#f-pedido').value.trim();
   p.mpr = mpr;
   p.nombre = nombre;
   p.dimensiones = $('#f-dim').value.trim();
@@ -271,6 +354,7 @@ async function abrirProyecto(id){
   fotoActual = null;
   const p = proyectoActual;
   $('#ficha-proyecto').innerHTML =
+    (p.pedido ? `<b>Pedido:</b> ${esc(p.pedido)}<br>` : '') +
     `<b>MPR:</b> ${esc(p.mpr)}<br><b>Contenedor:</b> ${esc(p.nombre)}<br>` +
     (p.dimensiones ? `<b>Dimensiones:</b> ${esc(p.dimensiones)}<br>` : '') +
     (p.cliente ? `<b>Cliente:</b> ${esc(p.cliente)}<br>` : '') +
@@ -486,6 +570,8 @@ async function generarWord(){
       children: [new TextRun({ text: 'MODIFICACIONES PROTOTIPO', bold: true, size: 32 })] }),
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 240 },
       children: [new TextRun({ text: `${p.mpr} — ${p.nombre}`, bold: true, size: 26 })] }),
+    new Paragraph({ spacing: { after: 60 }, children: [
+      new TextRun({ text: 'Pedido: ', bold: true }), new TextRun(p.pedido || '—') ] }),
     new Paragraph({ spacing: { after: 60 }, children: [
       new TextRun({ text: 'Dimensiones: ', bold: true }), new TextRun(p.dimensiones || '—') ] }),
     new Paragraph({ spacing: { after: 60 }, children: [

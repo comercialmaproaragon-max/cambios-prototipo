@@ -1,2 +1,5 @@
 .claude/
 _test*
+pedidos-plain.json
+cifrar-datos.py
+Actualizar-Pedidos.ps1
