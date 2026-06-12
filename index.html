@@ -3,57 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#e65a1e">
-<title>Cambios Prototipo</title>
+<meta name="theme-color" content="#ffffff">
+<title>Cambios Prototipo — Mapro Aragón</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
   :root{
-    --naranja:#e65a1e; --naranja-osc:#c44a14; --gris:#f4f4f5; --texto:#1c1c1e;
-    --borde:#e2e2e4; --rojo:#d23b2f;
+    --naranja:#F2611C; --naranja-osc:#d04f10; --negro:#111114; --gris:#f6f5f3;
+    --texto:#1c1c1e; --borde:#e4e2df; --rojo:#d23b2f;
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
   body{margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--gris); color:var(--texto)}
-  header{position:sticky; top:0; z-index:10; background:var(--naranja); color:#fff; padding:14px 16px; display:flex; align-items:center; gap:10px; box-shadow:0 1px 4px rgba(0,0,0,.18)}
-  header h1{font-size:17px; margin:0; font-weight:600; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-  .btn-back{background:none; border:none; color:#fff; font-size:22px; padding:0 6px 2px 0; cursor:pointer; display:none; line-height:1}
+  header{position:sticky; top:0; z-index:10; background:#fff; border-bottom:3px solid var(--naranja);
+    padding:10px 48px 7px; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,.07)}
+  .logo-svg{height:32px; display:block; margin:0 auto}
+  #subtitulo{font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:3px; color:var(--naranja); margin-top:3px}
+  .btn-back{position:absolute; left:4px; top:12px; background:none; border:none; color:var(--negro);
+    font-size:30px; padding:0 12px 4px; cursor:pointer; display:none; line-height:1}
   main{padding:14px; max-width:760px; margin:0 auto}
   .vista{display:none}
   .vista.activa{display:block}
-  .card{background:#fff; border-radius:12px; padding:14px; margin-bottom:10px; box-shadow:0 1px 2px rgba(0,0,0,.06)}
+  .card{background:#fff; border-radius:10px; padding:14px; margin-bottom:10px;
+    border:1px solid var(--borde); box-shadow:0 1px 2px rgba(0,0,0,.05)}
   .card.clicable{cursor:pointer}
-  .card h3{margin:0 0 4px; font-size:16px}
+  .card h3{margin:0 0 4px; font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:21px; letter-spacing:1.2px; color:var(--negro)}
   .card .sub{font-size:13px; color:#6b6b70}
   .vacio{text-align:center; color:#8e8e93; padding:48px 16px; font-size:15px}
-  .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; border:none; border-radius:10px; padding:13px 18px; font-size:15px; font-weight:600; cursor:pointer; width:100%; margin-top:8px}
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; border:none; border-radius:8px;
+    padding:13px 18px; font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:2px;
+    cursor:pointer; width:100%; margin-top:8px}
   .btn-pri{background:var(--naranja); color:#fff}
   .btn-pri:active{background:var(--naranja-osc)}
-  .btn-sec{background:#fff; color:var(--naranja); border:1.5px solid var(--naranja)}
+  .btn-sec{background:#fff; color:var(--negro); border:1.5px solid var(--negro)}
   .btn-peligro{background:none; color:var(--rojo); border:none; font-size:14px; font-weight:600; padding:12px; width:100%; cursor:pointer}
+  .btn-mini{background:none; border:1.5px solid var(--naranja); color:var(--naranja); border-radius:8px;
+    font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:1.5px; padding:7px 12px; cursor:pointer; margin-top:10px}
   label{display:block; font-size:13px; font-weight:600; margin:12px 0 4px; color:#48484d}
-  input[type=text], textarea{width:100%; padding:11px 12px; font-size:16px; border:1.5px solid var(--borde); border-radius:10px; background:#fff; font-family:inherit}
+  input[type=text], textarea{width:100%; padding:11px 12px; font-size:16px; border:1.5px solid var(--borde);
+    border-radius:8px; background:#fff; font-family:inherit}
   input:focus, textarea:focus{outline:none; border-color:var(--naranja)}
   textarea{resize:vertical; min-height:72px}
   .ficha{font-size:13.5px; color:#48484d; line-height:1.55}
   .ficha b{color:var(--texto)}
   /* foto */
-  .foto-wrap{position:relative; border-radius:12px; overflow:hidden; background:#000; touch-action:manipulation}
+  .foto-wrap{position:relative; border-radius:10px; overflow:hidden; background:#000; touch-action:manipulation}
   .foto-wrap img{display:block; width:100%; height:auto}
-  .marca{position:absolute; width:30px; height:30px; margin:-15px 0 0 -15px; border-radius:50%; background:var(--naranja); border:2.5px solid #fff; color:#fff; font-size:14px; font-weight:700; display:flex; align-items:center; justify-content:center; box-shadow:0 1px 4px rgba(0,0,0,.45); cursor:pointer}
+  .marca{position:absolute; width:30px; height:30px; margin:-15px 0 0 -15px; border-radius:50%;
+    background:var(--naranja); border:2.5px solid #fff; color:#fff; font-size:14px; font-weight:700;
+    display:flex; align-items:center; justify-content:center; box-shadow:0 1px 4px rgba(0,0,0,.45); cursor:pointer}
   .ayuda{font-size:13px; color:#8e8e93; text-align:center; margin:10px 0 4px}
   .cambio-item{display:flex; gap:10px; align-items:flex-start; padding:11px 0; border-bottom:1px solid var(--borde)}
   .cambio-item:last-child{border-bottom:none}
-  .cambio-num{flex-shrink:0; width:24px; height:24px; border-radius:50%; background:var(--naranja); color:#fff; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px}
+  .cambio-num{flex-shrink:0; width:24px; height:24px; border-radius:50%; background:var(--naranja); color:#fff;
+    font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px}
   .cambio-num.sin{background:#8e8e93}
   .cambio-txt{flex:1; font-size:14.5px; line-height:1.45}
-  .miniatura{width:100%; border-radius:10px; display:block}
+  .miniatura{width:100%; border-radius:8px; display:block}
   .mini-card{padding:10px}
   .mini-card .sub{margin-top:8px}
   /* modal */
   .overlay{position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; z-index:50; align-items:flex-end; justify-content:center}
   .overlay.activa{display:flex}
-  .hoja{background:#fff; width:100%; max-width:560px; border-radius:16px 16px 0 0; padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
-  .hoja h3{margin:0 0 4px; font-size:16px}
+  .hoja{background:#fff; width:100%; max-width:560px; border-radius:14px 14px 0 0; border-top:3px solid var(--naranja);
+    padding:18px 16px calc(18px + env(safe-area-inset-bottom))}
+  .hoja h3{margin:0 0 4px; font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:20px; letter-spacing:1.5px}
   .fila-btns{display:flex; gap:10px}
   .fila-btns .btn{margin-top:14px}
   #estado-export{font-size:13px; color:#8e8e93; text-align:center; margin-top:8px; min-height:18px}
@@ -62,7 +77,13 @@
 <body>
 <header>
   <button class="btn-back" id="btn-back" aria-label="Volver">&#8249;</button>
-  <h1 id="titulo">Cambios Prototipo</h1>
+  <svg class="logo-svg" viewBox="0 0 380 80" xmlns="http://www.w3.org/2000/svg" aria-label="Mapro Aragón">
+    <path d="M 30 8 Q 8 40 30 72" fill="none" stroke="#F2611C" stroke-width="13" stroke-linecap="round"/>
+    <path d="M 350 8 Q 372 40 350 72" fill="none" stroke="#F2611C" stroke-width="13" stroke-linecap="round"/>
+    <text x="190" y="40" text-anchor="middle" dominant-baseline="central"
+      font-family="'Bebas Neue',ArialNarrow,'Arial Narrow',sans-serif" font-size="52" letter-spacing="5" fill="#111114">MAPRO ARAGÓN</text>
+  </svg>
+  <div id="subtitulo">Cambios prototipo</div>
 </header>
 <main>
 
@@ -72,7 +93,7 @@
     <button class="btn btn-pri" id="btn-nuevo">+ Nueva revisión</button>
   </section>
 
-  <!-- FORMULARIO NUEVA REVISIÓN -->
+  <!-- FORMULARIO REVISIÓN (alta y edición) -->
   <section class="vista" id="vista-form">
     <div class="card">
       <label>MPR del proyecto</label>
@@ -86,12 +107,15 @@
       <label>Fecha de revisión</label>
       <input type="text" id="f-fecha">
     </div>
-    <button class="btn btn-pri" id="btn-guardar-proy">Guardar revisión</button>
+    <button class="btn btn-pri" id="btn-guardar-proy">Guardar</button>
   </section>
 
   <!-- DETALLE DE REVISIÓN -->
   <section class="vista" id="vista-proyecto">
-    <div class="card"><div class="ficha" id="ficha-proyecto"></div></div>
+    <div class="card">
+      <div class="ficha" id="ficha-proyecto"></div>
+      <button class="btn-mini" id="btn-editar-proy">✎ Editar datos</button>
+    </div>
     <div id="lista-fotos"></div>
     <input type="file" id="input-foto" accept="image/*" capture="environment" hidden>
     <button class="btn btn-pri" id="btn-foto">📷 Añadir foto</button>
@@ -129,7 +153,7 @@
 <script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
 <script>
 const $ = s => document.querySelector(s);
-let db, proyectoActual = null, fotoActual = null, marcaEditando = null, urlFotoActual = null;
+let db, proyectoActual = null, fotoActual = null, marcaEditando = null, urlFotoActual = null, editandoProyectoId = null;
 
 /* iOS antiguos y navegadores integrados no siempre tienen crypto.randomUUID */
 function uuid(){
@@ -174,12 +198,13 @@ const fotosDe  = pid => new Promise((res, rej) => {
 function mostrar(vista, titulo){
   document.querySelectorAll('.vista').forEach(v => v.classList.remove('activa'));
   $('#vista-' + vista).classList.add('activa');
-  $('#titulo').textContent = titulo;
+  $('#subtitulo').textContent = titulo;
   $('#btn-back').style.display = vista === 'lista' ? 'none' : 'block';
   window.scrollTo(0, 0);
 }
 $('#btn-back').onclick = () => {
   if ($('#vista-foto').classList.contains('activa')) abrirProyecto(proyectoActual.id);
+  else if ($('#vista-form').classList.contains('activa') && editandoProyectoId) abrirProyecto(editandoProyectoId);
   else verLista();
 };
 
@@ -198,27 +223,44 @@ async function verLista(){
     div.onclick = () => abrirProyecto(p.id);
     cont.appendChild(div);
   }
-  mostrar('lista', 'Cambios Prototipo');
+  mostrar('lista', 'Cambios prototipo');
 }
 
-/* ---------- Nueva revisión ---------- */
+/* ---------- Alta y edición de revisión ---------- */
 $('#btn-nuevo').onclick = () => {
+  editandoProyectoId = null;
   ['f-mpr','f-nombre','f-dim','f-cliente'].forEach(id => $('#' + id).value = '');
   $('#f-fecha').value = new Date().toLocaleDateString('es-ES');
   mostrar('form', 'Nueva revisión');
+};
+$('#btn-editar-proy').onclick = () => {
+  const p = proyectoActual;
+  editandoProyectoId = p.id;
+  $('#f-mpr').value = p.mpr;
+  $('#f-nombre').value = p.nombre;
+  $('#f-dim').value = p.dimensiones;
+  $('#f-cliente').value = p.cliente;
+  $('#f-fecha').value = p.fecha;
+  mostrar('form', 'Editar revisión');
 };
 $('#btn-guardar-proy').onclick = async () => {
   try {
   const mpr = $('#f-mpr').value.trim(), nombre = $('#f-nombre').value.trim();
   if (!mpr || !nombre){ alert('Indica al menos el MPR y el nombre del contenedor.'); return; }
   if (!db) throw new Error('Sin acceso al almacenamiento. Abre la app en Safari normal (no en el navegador de WhatsApp ni en navegación privada).');
-  const p = {
-    id: uuid(), mpr, nombre,
-    dimensiones: $('#f-dim').value.trim(), cliente: $('#f-cliente').value.trim(),
-    fecha: $('#f-fecha').value.trim() || new Date().toLocaleDateString('es-ES'),
-    creado: Date.now()
-  };
+  let p;
+  if (editandoProyectoId){
+    p = await obtener('proyectos', editandoProyectoId);
+  } else {
+    p = { id: uuid(), creado: Date.now() };
+  }
+  p.mpr = mpr;
+  p.nombre = nombre;
+  p.dimensiones = $('#f-dim').value.trim();
+  p.cliente = $('#f-cliente').value.trim();
+  p.fecha = $('#f-fecha').value.trim() || new Date().toLocaleDateString('es-ES');
   await guardar('proyectos', p);
+  editandoProyectoId = null;
   abrirProyecto(p.id);
   } catch (e){ alert('No se pudo guardar la revisión.\n\n' + e.message); }
 };
@@ -259,10 +301,12 @@ $('#input-foto').onchange = async e => {
   const archivo = e.target.files[0];
   e.target.value = '';
   if (!archivo) return;
-  const blob = await reducirImagen(archivo, 1600);
-  const f = { id: uuid(), proyectoId: proyectoActual.id, blob, marcas: [], creada: Date.now() };
-  await guardar('fotos', f);
-  abrirFoto(f.id);
+  try {
+    const blob = await reducirImagen(archivo, 1600);
+    const f = { id: uuid(), proyectoId: proyectoActual.id, blob, marcas: [], creada: Date.now() };
+    await guardar('fotos', f);
+    abrirFoto(f.id);
+  } catch (err){ alert('No se pudo guardar la foto.\n\n' + err.message); }
 };
 $('#btn-borrar-proy').onclick = async () => {
   if (!confirm('¿Eliminar esta revisión y todas sus fotos?')) return;
@@ -361,10 +405,12 @@ $('#modal').onclick = e => { if (e.target === $('#modal')) cerrarModal(); };
 $('#modal-guardar').onclick = async () => {
   const texto = $('#modal-texto').value.trim();
   if (!texto){ alert('Escribe la descripción del cambio.'); return; }
-  if (marcaEditando.nueva) fotoActual.marcas.push({ x: marcaEditando.x, y: marcaEditando.y, texto });
-  else fotoActual.marcas[marcaEditando.indice].texto = texto;
-  await guardar('fotos', fotoActual);
-  cerrarModal(); pintarMarcas(); pintarCambios();
+  try {
+    if (marcaEditando.nueva) fotoActual.marcas.push({ x: marcaEditando.x, y: marcaEditando.y, texto });
+    else fotoActual.marcas[marcaEditando.indice].texto = texto;
+    await guardar('fotos', fotoActual);
+    cerrarModal(); pintarMarcas(); pintarCambios();
+  } catch (e){ alert('No se pudo guardar el cambio.\n\n' + e.message); }
 };
 $('#modal-borrar').onclick = async () => {
   fotoActual.marcas.splice(marcaEditando.indice, 1);
@@ -372,9 +418,28 @@ $('#modal-borrar').onclick = async () => {
   cerrarModal(); pintarMarcas(); pintarCambios();
 };
 
+/* ---------- Logo para el Word (se dibuja en canvas) ---------- */
+async function logoPNG(){
+  try { await document.fonts.load('110px "Bebas Neue"'); } catch (e){}
+  const c = document.createElement('canvas');
+  c.width = 1000; c.height = 220;
+  const g = c.getContext('2d');
+  g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height);
+  g.strokeStyle = '#F2611C'; g.lineWidth = 26; g.lineCap = 'round';
+  g.beginPath(); g.moveTo(72, 24); g.quadraticCurveTo(20, 110, 72, 196); g.stroke();
+  g.beginPath(); g.moveTo(928, 24); g.quadraticCurveTo(980, 110, 928, 196); g.stroke();
+  g.fillStyle = '#111114';
+  if ('letterSpacing' in g) g.letterSpacing = '8px';
+  g.font = '110px "Bebas Neue", "Arial Narrow", sans-serif';
+  g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.fillText('MAPRO ARAGÓN', 500, 118);
+  const blob = await new Promise(res => c.toBlob(res, 'image/png'));
+  return { datos: await blob.arrayBuffer(), ancho: c.width, alto: c.height };
+}
+
 /* ---------- Exportar a Word ---------- */
 async function fotoConMarcas(f){
-  // Devuelve {arrayBuffer, ancho, alto} de la foto con las marcas dibujadas encima
+  // Devuelve {datos, ancho, alto} de la foto con las marcas dibujadas encima
   const img = await new Promise((res, rej) => {
     const i = new Image();
     i.onload = () => res(i);
@@ -393,7 +458,7 @@ async function fotoConMarcas(f){
     n++;
     const cx = m.x * c.width, cy = m.y * c.height;
     g.beginPath(); g.arc(cx, cy, radio, 0, Math.PI * 2);
-    g.fillStyle = '#e65a1e'; g.fill();
+    g.fillStyle = '#F2611C'; g.fill();
     g.lineWidth = radio * 0.16; g.strokeStyle = '#fff'; g.stroke();
     g.fillStyle = '#fff';
     g.font = `bold ${radio * 1.15}px sans-serif`;
@@ -411,7 +476,12 @@ async function generarWord(){
   if (!fotos.length){ alert('Añade al menos una foto antes de generar el Word.'); return null; }
   $('#estado-export').textContent = 'Generando documento…';
 
+  const logo = await logoPNG();
+  const anchoLogo = 230;
   const hijos = [
+    new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 200 },
+      children: [new ImageRun({ data: logo.datos,
+        transformation: { width: anchoLogo, height: Math.round(anchoLogo * logo.alto / logo.ancho) } })] }),
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 60 },
       children: [new TextRun({ text: 'MODIFICACIONES PROTOTIPO', bold: true, size: 32 })] }),
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 240 },
