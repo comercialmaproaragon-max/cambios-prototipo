@@ -131,6 +131,15 @@
 const $ = s => document.querySelector(s);
 let db, proyectoActual = null, fotoActual = null, marcaEditando = null, urlFotoActual = null;
 
+/* iOS antiguos y navegadores integrados no siempre tienen crypto.randomUUID */
+function uuid(){
+  if (crypto.randomUUID) return crypto.randomUUID();
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random() * 16 | 0;
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+}
+
 /* ---------- IndexedDB ---------- */
 function abrirDB(){
   return new Promise((res, rej) => {
@@ -199,16 +208,19 @@ $('#btn-nuevo').onclick = () => {
   mostrar('form', 'Nueva revisión');
 };
 $('#btn-guardar-proy').onclick = async () => {
+  try {
   const mpr = $('#f-mpr').value.trim(), nombre = $('#f-nombre').value.trim();
   if (!mpr || !nombre){ alert('Indica al menos el MPR y el nombre del contenedor.'); return; }
+  if (!db) throw new Error('Sin acceso al almacenamiento. Abre la app en Safari normal (no en el navegador de WhatsApp ni en navegación privada).');
   const p = {
-    id: crypto.randomUUID(), mpr, nombre,
+    id: uuid(), mpr, nombre,
     dimensiones: $('#f-dim').value.trim(), cliente: $('#f-cliente').value.trim(),
     fecha: $('#f-fecha').value.trim() || new Date().toLocaleDateString('es-ES'),
     creado: Date.now()
   };
   await guardar('proyectos', p);
   abrirProyecto(p.id);
+  } catch (e){ alert('No se pudo guardar la revisión.\n\n' + e.message); }
 };
 
 /* ---------- Detalle de revisión ---------- */
@@ -248,7 +260,7 @@ $('#input-foto').onchange = async e => {
   e.target.value = '';
   if (!archivo) return;
   const blob = await reducirImagen(archivo, 1600);
-  const f = { id: crypto.randomUUID(), proyectoId: proyectoActual.id, blob, marcas: [], creada: Date.now() };
+  const f = { id: uuid(), proyectoId: proyectoActual.id, blob, marcas: [], creada: Date.now() };
   await guardar('fotos', f);
   abrirFoto(f.id);
 };
@@ -471,7 +483,13 @@ $('#btn-compartir').onclick = async () => {
 /* ---------- Utilidades y arranque ---------- */
 function esc(t){ const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
-abrirDB().then(d => { db = d; verLista(); });
+abrirDB().then(d => { db = d; verLista(); }).catch(() => {
+  $('#lista-proyectos').innerHTML =
+    '<div class="card" style="border-left:4px solid var(--rojo)">' +
+    '<h3>Sin acceso al almacenamiento</h3>' +
+    '<div class="sub">Este navegador no permite guardar datos. Abre la app en <b>Safari normal</b> ' +
+    '(no en el navegador de WhatsApp ni en navegación privada) y, mejor aún, instálala en la pantalla de inicio.</div></div>';
+});
 </script>
 </body>
 </html>

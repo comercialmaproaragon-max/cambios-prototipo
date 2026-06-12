@@ -1,4 +1,4 @@
-const CACHE = 'cambios-prototipo-v1';
+const CACHE = 'cambios-prototipo-v2';
 const PRECARGA = [
   './',
   './index.html',
