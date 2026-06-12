@@ -50,6 +50,13 @@
   /* foto */
   .foto-wrap{position:relative; border-radius:10px; overflow:hidden; background:#000; touch-action:manipulation}
   .foto-wrap img{display:block; width:100%; height:auto}
+  #lienzo{position:absolute; left:0; top:0; width:100%; height:100%; pointer-events:none}
+  .foto-wrap.dibujando .marca{pointer-events:none}
+  /* barra de herramientas de dibujo */
+  .barra-dibujo{display:flex; gap:9px; margin:10px 0 2px; justify-content:center; align-items:center; flex-wrap:wrap}
+  .herr{width:40px; height:40px; border-radius:50%; border:2px solid var(--borde); background:#fff;
+    font-size:17px; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0}
+  .herr.activa{border-color:var(--negro); box-shadow:0 0 0 3px rgba(242,97,28,.45)}
   .marca{position:absolute; width:30px; height:30px; margin:-15px 0 0 -15px; border-radius:50%;
     background:var(--naranja); border:2.5px solid #fff; color:#fff; font-size:14px; font-weight:700;
     display:flex; align-items:center; justify-content:center; box-shadow:0 1px 4px rgba(0,0,0,.45); cursor:pointer}
@@ -130,8 +137,18 @@
 
   <!-- DETALLE DE FOTO -->
   <section class="vista" id="vista-foto">
-    <div class="foto-wrap" id="foto-wrap"><img id="foto-img" alt="Foto del prototipo"></div>
-    <p class="ayuda">Toca sobre la foto para añadir una marca numerada con su modificación.</p>
+    <div class="foto-wrap" id="foto-wrap"><img id="foto-img" alt="Foto del prototipo"><canvas id="lienzo"></canvas></div>
+    <div class="barra-dibujo" id="barra-dibujo">
+      <button class="herr activa" id="herr-marca" title="Marca numerada">📍</button>
+      <button class="herr color" data-color="#e02020" style="background:#e02020" title="Lápiz rojo"></button>
+      <button class="herr color" data-color="#1565e0" style="background:#1565e0" title="Lápiz azul"></button>
+      <button class="herr color" data-color="#14a035" style="background:#14a035" title="Lápiz verde"></button>
+      <button class="herr color" data-color="#f5c400" style="background:#f5c400" title="Lápiz amarillo"></button>
+      <button class="herr color" data-color="#ffffff" style="background:#ffffff" title="Lápiz blanco"></button>
+      <button class="herr color" data-color="#111114" style="background:#111114" title="Lápiz negro"></button>
+      <button class="herr" id="herr-deshacer" title="Deshacer último trazo">↩</button>
+    </div>
+    <p class="ayuda" id="ayuda-foto">Toca sobre la foto para añadir una marca numerada, o elige un color y dibuja a mano.</p>
     <div class="card" id="card-cambios"><div id="lista-cambios"></div></div>
     <button class="btn btn-sec" id="btn-cambio-libre">+ Cambio sin marca en foto</button>
     <button class="btn-peligro" id="btn-borrar-foto">Eliminar esta foto</button>
@@ -420,13 +437,98 @@ function reducirImagen(archivo, maxLado){
 /* ---------- Detalle de foto ---------- */
 async function abrirFoto(id){
   fotoActual = await obtener('fotos', id);
+  if (!fotoActual.trazos) fotoActual.trazos = [];
   if (urlFotoActual) URL.revokeObjectURL(urlFotoActual);
   urlFotoActual = URL.createObjectURL(fotoActual.blob);
-  $('#foto-img').src = urlFotoActual;
+  const img = $('#foto-img');
+  img.onload = ajustarLienzo;
+  img.src = urlFotoActual;
+  setModo(null);
   pintarMarcas();
   pintarCambios();
   mostrar('foto', 'Foto y cambios');
+  ajustarLienzo();
 }
+
+/* ---------- Lápiz de colores sobre la foto ---------- */
+let modoLapiz = null, trazoActual = null;
+const lienzo = $('#lienzo');
+
+function ajustarLienzo(){
+  const img = $('#foto-img');
+  if (!img.clientWidth) return;
+  const dpr = window.devicePixelRatio || 1;
+  lienzo.width = Math.round(img.clientWidth * dpr);
+  lienzo.height = Math.round(img.clientHeight * dpr);
+  pintarTrazos();
+}
+window.addEventListener('resize', () => { if (fotoActual) ajustarLienzo(); });
+
+function dibujarTrazos(g, ancho, alto, trazos){
+  for (const t of trazos){
+    if (!t.puntos || t.puntos.length < 2) continue;
+    g.strokeStyle = t.color;
+    g.lineWidth = Math.max(2.5, (t.grosor || 0.008) * ancho);
+    g.lineCap = 'round'; g.lineJoin = 'round';
+    g.beginPath();
+    g.moveTo(t.puntos[0].x * ancho, t.puntos[0].y * alto);
+    for (let i = 1; i < t.puntos.length; i++) g.lineTo(t.puntos[i].x * ancho, t.puntos[i].y * alto);
+    g.stroke();
+  }
+}
+function pintarTrazos(){
+  if (!fotoActual) return;
+  const g = lienzo.getContext('2d');
+  g.clearRect(0, 0, lienzo.width, lienzo.height);
+  const lista = trazoActual ? [...fotoActual.trazos, trazoActual] : fotoActual.trazos;
+  dibujarTrazos(g, lienzo.width, lienzo.height, lista);
+}
+function setModo(color){
+  modoLapiz = color;
+  lienzo.style.pointerEvents = color ? 'auto' : 'none';
+  lienzo.style.touchAction = color ? 'none' : '';
+  $('#foto-wrap').classList.toggle('dibujando', !!color);
+  document.querySelectorAll('#barra-dibujo .herr').forEach(b => b.classList.remove('activa'));
+  if (color) document.querySelector(`#barra-dibujo .herr[data-color="${color}"]`).classList.add('activa');
+  else $('#herr-marca').classList.add('activa');
+  $('#ayuda-foto').textContent = color
+    ? 'Dibuja con el dedo sobre la foto. Pulsa 📍 para volver a las marcas numeradas.'
+    : 'Toca sobre la foto para añadir una marca numerada, o elige un color y dibuja a mano.';
+}
+$('#herr-marca').onclick = () => setModo(null);
+document.querySelectorAll('#barra-dibujo .color').forEach(b => { b.onclick = () => setModo(b.dataset.color); });
+$('#herr-deshacer').onclick = async () => {
+  if (!fotoActual || !fotoActual.trazos.length) return;
+  fotoActual.trazos.pop();
+  await guardar('fotos', fotoActual);
+  pintarTrazos();
+};
+function posLienzo(e){
+  const r = lienzo.getBoundingClientRect();
+  return { x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height };
+}
+lienzo.addEventListener('pointerdown', e => {
+  if (!modoLapiz) return;
+  e.preventDefault();
+  lienzo.setPointerCapture(e.pointerId);
+  trazoActual = { color: modoLapiz, grosor: 0.008, puntos: [posLienzo(e)] };
+});
+lienzo.addEventListener('pointermove', e => {
+  if (!trazoActual) return;
+  trazoActual.puntos.push(posLienzo(e));
+  pintarTrazos();
+});
+async function finTrazo(){
+  if (!trazoActual) return;
+  if (trazoActual.puntos.length > 1){
+    fotoActual.trazos.push(trazoActual);
+    trazoActual = null;
+    try { await guardar('fotos', fotoActual); } catch (e){ alert('No se pudo guardar el trazo.\n\n' + e.message); }
+  } else trazoActual = null;
+  pintarTrazos();
+}
+lienzo.addEventListener('pointerup', finTrazo);
+lienzo.addEventListener('pointercancel', finTrazo);
 function pintarMarcas(){
   document.querySelectorAll('.marca').forEach(m => m.remove());
   const wrap = $('#foto-wrap');
@@ -454,6 +556,7 @@ function pintarCambios(){
   });
 }
 $('#foto-wrap').onclick = e => {
+  if (modoLapiz) return; // en modo lápiz no se ponen marcas
   const img = $('#foto-img');
   const r = img.getBoundingClientRect();
   const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
@@ -535,6 +638,7 @@ async function fotoConMarcas(f){
   const g = c.getContext('2d');
   g.drawImage(img, 0, 0);
   URL.revokeObjectURL(img.src);
+  dibujarTrazos(g, c.width, c.height, f.trazos || []);
   const radio = Math.max(16, c.width * 0.022);
   let n = 0;
   for (const m of f.marcas){
