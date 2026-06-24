@@ -1,21 +1,19 @@
-const CACHE = 'visitas-mapro-v1';
+const CACHE = 'visitas-mapro-v2';
 const PRECARGA = [
   './',
   './index.html',
   './manifest.webmanifest',
   './icon-192.png',
   './icon-512.png',
-  'https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js',
   'https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'
 ];
-const DOMINIOS_CACHEABLES = ['cdn.sheetjs.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];
+const DOMINIOS_CACHEABLES = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE).then(c =>
-      // si algún recurso externo falla, no abortamos la instalación
-      Promise.allSettled(PRECARGA.map(u => c.add(u)))
-    ).then(() => self.skipWaiting())
+    caches.open(CACHE)
+      .then(c => Promise.allSettled(PRECARGA.map(u => c.add(u))))
+      .then(() => self.skipWaiting())
   );
 });
 

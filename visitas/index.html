@@ -17,10 +17,9 @@
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
   body{margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--gris); color:var(--texto)}
   header{position:sticky; top:0; z-index:10; background:#fff; border-bottom:3px solid var(--naranja);
-    padding:10px 48px 7px; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,.07)}
-  .logo-svg{height:32px; display:block; margin:0 auto}
-  #subtitulo{font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:3px; color:var(--naranja); margin-top:3px}
-  .btn-back{position:absolute; left:4px; top:12px; background:none; border:none; color:var(--negro);
+    padding:9px 48px 8px; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,.07)}
+  .logo-svg{height:42px; display:block; margin:0 auto}
+  .btn-back{position:absolute; left:4px; top:14px; background:none; border:none; color:var(--negro);
     font-size:30px; padding:0 12px 4px; cursor:pointer; display:none; line-height:1}
   main{padding:14px; max-width:760px; margin:0 auto}
   .vista{display:none}
@@ -35,19 +34,14 @@
   .semana-info b{display:block; font-family:'Bebas Neue',sans-serif; font-size:19px; letter-spacing:1.5px; color:var(--negro); font-weight:400}
   .semana-info span{font-size:12.5px; color:#6b6b70}
 
-  .dia-titulo{font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:1.5px; color:var(--naranja-osc);
-    margin:16px 2px 6px}
+  .dia-titulo{font-family:'Bebas Neue',sans-serif; font-size:16px; letter-spacing:1.5px; color:var(--naranja-osc); margin:16px 2px 6px}
   .card{background:#fff; border-radius:10px; padding:13px 14px; margin-bottom:9px; position:relative;
     border:1px solid var(--borde); box-shadow:0 1px 2px rgba(0,0,0,.05)}
   .card.clicable{cursor:pointer}
   .card .btn-borrar-card{position:absolute; top:6px; right:6px; background:none; border:none;
     font-size:17px; padding:8px; cursor:pointer; color:#b0b0b4; line-height:1}
-  .card h3{margin:0 4px 3px 0; font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:20px; letter-spacing:.8px; color:var(--negro); padding-right:26px}
-  .card .sub{font-size:13px; color:#6b6b70; line-height:1.5}
-  .tag{display:inline-block; font-size:11px; font-weight:700; letter-spacing:.4px; padding:2px 7px; border-radius:20px; vertical-align:middle; margin-left:4px}
-  .tag-cli{background:#fef0e8; color:var(--naranja-osc)}
-  .tag-prov{background:#eef1f6; color:#3a4a66}
-  .tag-nuevo{background:#e7f6ed; color:var(--verde)}
+  .card h3{margin:0 26px 3px 0; font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:18px; letter-spacing:.8px; color:var(--negro)}
+  .card .sub{font-size:13.5px; color:#5a5a5f; line-height:1.5}
   .vacio{text-align:center; color:#8e8e93; padding:40px 16px; font-size:15px}
   .firma{text-align:center; font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:2.5px;
     color:#b0b0b4; margin-top:22px}
@@ -61,44 +55,31 @@
   .btn-sec{background:#fff; color:var(--negro); border:1.5px solid var(--negro)}
   .btn-peligro{background:none; color:var(--rojo); border:none; font-size:14px; font-weight:600; padding:14px; width:100%; cursor:pointer; margin-top:6px}
   label{display:block; font-size:13px; font-weight:600; margin:14px 0 4px; color:#48484d}
-  input[type=text], textarea, select, input[type=date]{width:100%; padding:11px 12px; font-size:16px;
+  input[type=date], textarea{width:100%; padding:11px 12px; font-size:16px;
     border:1.5px solid var(--borde); border-radius:8px; background:#fff; font-family:inherit; color:var(--texto)}
-  input:focus, textarea:focus, select:focus{outline:none; border-color:var(--naranja)}
-  textarea{resize:vertical; min-height:90px; line-height:1.45}
+  textarea:focus, input:focus{outline:none; border-color:var(--naranja)}
+  textarea{resize:vertical; min-height:150px; line-height:1.5}
 
-  /* campo con micro */
-  .campo-mic{display:flex; gap:8px; align-items:flex-start}
-  .campo-mic > input, .campo-mic > textarea{flex:1}
-  .mic{flex-shrink:0; width:46px; height:46px; border-radius:50%; border:1.5px solid var(--naranja);
-    background:#fff; color:var(--naranja); cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0}
-  .mic svg{width:22px; height:22px}
-  .mic.grabando{background:var(--rojo); border-color:var(--rojo); color:#fff; animation:pulso 1s infinite}
-  @keyframes pulso{0%{box-shadow:0 0 0 0 rgba(210,59,47,.5)}70%{box-shadow:0 0 0 9px rgba(210,59,47,0)}100%{box-shadow:0 0 0 0 rgba(210,59,47,0)}}
-
-  /* micro grande de la visita */
-  .mic-grande{width:100%; border:2px dashed var(--naranja); background:#fff7f2; border-radius:12px;
-    padding:18px; display:flex; flex-direction:column; align-items:center; gap:8px; cursor:pointer; margin-bottom:4px}
-  .mic-grande .circ{width:64px; height:64px; border-radius:50%; background:var(--naranja); color:#fff;
+  /* botón grande de grabar */
+  .grabar{width:100%; border:none; border-radius:14px; background:var(--naranja); color:#fff;
+    padding:22px; display:flex; flex-direction:column; align-items:center; gap:10px; cursor:pointer; margin:6px 0}
+  .grabar .circ{width:70px; height:70px; border-radius:50%; background:rgba(255,255,255,.18);
     display:flex; align-items:center; justify-content:center}
-  .mic-grande .circ svg{width:30px; height:30px}
-  .mic-grande.grabando .circ{background:var(--rojo); animation:pulso 1s infinite}
-  .mic-grande b{font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:1.5px; color:var(--negro); font-weight:400}
-  .mic-grande span{font-size:12.5px; color:#8e8e93; text-align:center}
+  .grabar .circ svg{width:34px; height:34px; fill:#fff}
+  .grabar b{font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:1.5px; font-weight:400}
+  .grabar.grabando{background:var(--rojo); animation:pulso 1.2s infinite}
+  .grabar.grabando .circ{background:rgba(255,255,255,.25)}
+  @keyframes pulso{0%{box-shadow:0 0 0 0 rgba(210,59,47,.5)}70%{box-shadow:0 0 0 14px rgba(210,59,47,0)}100%{box-shadow:0 0 0 0 rgba(210,59,47,0)}}
+  .estado-grab{font-size:13px; text-align:center; color:#8e8e93; min-height:18px; margin-bottom:2px}
 
-  /* pills (Cliente/Proveedor, Sí/No) */
-  .pills{display:flex; gap:8px}
-  .pill{flex:1; text-align:center; padding:11px 8px; border:1.5px solid var(--borde); border-radius:8px;
-    background:#fff; font-size:14.5px; font-weight:600; cursor:pointer; color:#6b6b70}
-  .pill.on{border-color:var(--naranja); background:#fff7f2; color:var(--naranja-osc)}
-
-  .ayuda{font-size:12.5px; color:#8e8e93; text-align:center; margin:8px 0}
   .reporte{background:#fff; border:1px solid var(--borde); border-radius:10px; padding:14px;
-    white-space:pre-wrap; font-size:13.5px; line-height:1.5; color:var(--texto); font-family:ui-monospace,Menlo,Consolas,monospace; overflow-x:auto}
+    white-space:pre-wrap; font-size:13.5px; line-height:1.55; color:var(--texto); font-family:ui-monospace,Menlo,Consolas,monospace; overflow-x:auto}
   .seg{display:flex; gap:8px; margin-bottom:12px}
-  .seg .pill{font-family:'Bebas Neue',sans-serif; letter-spacing:1px; font-size:16px}
-  #estado{font-size:13px; text-align:center; margin-top:8px; min-height:18px; color:#8e8e93}
+  .seg .pill{flex:1; text-align:center; padding:11px 8px; border:1.5px solid var(--borde); border-radius:8px;
+    background:#fff; font-family:'Bebas Neue',sans-serif; letter-spacing:1px; font-size:16px; cursor:pointer; color:#6b6b70}
+  .seg .pill.on{border-color:var(--naranja); background:#fff7f2; color:var(--naranja-osc)}
+  #estado, #estado-rep{font-size:13px; text-align:center; margin-top:8px; min-height:18px; color:#8e8e93}
 
-  /* toast actualización */
   #toast{position:fixed; left:50%; bottom:18px; transform:translateX(-50%); background:var(--negro); color:#fff;
     padding:12px 18px; border-radius:30px; font-size:14px; display:none; z-index:99; box-shadow:0 4px 14px rgba(0,0,0,.3); cursor:pointer}
   #toast.show{display:block}
@@ -107,13 +88,15 @@
 <body>
 <header>
   <button class="btn-back" id="btn-back" aria-label="Volver">&#8249;</button>
-  <svg class="logo-svg" viewBox="0 0 380 80" xmlns="http://www.w3.org/2000/svg" aria-label="Mapro Aragón">
-    <path d="M 30 8 Q 8 40 30 72" fill="none" stroke="#F2611C" stroke-width="13" stroke-linecap="round"/>
-    <path d="M 350 8 Q 372 40 350 72" fill="none" stroke="#F2611C" stroke-width="13" stroke-linecap="round"/>
-    <text x="190" y="40" text-anchor="middle" dominant-baseline="central"
-      font-family="'Bebas Neue',ArialNarrow,'Arial Narrow',sans-serif" font-size="52" letter-spacing="5" fill="#111114">MAPRO ARAGÓN</text>
+  <svg class="logo-svg" viewBox="0 0 326 70" xmlns="http://www.w3.org/2000/svg" aria-label="Visitas — Mapro Aragón">
+    <circle cx="35" cy="35" r="32" fill="#F2611C"/>
+    <g transform="translate(20,19) scale(1.27)" fill="#fff">
+      <path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Z"/>
+      <path d="M19 11a1 1 0 1 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.92V21a1 1 0 1 0 2 0v-3.08A7 7 0 0 0 19 11Z"/>
+    </g>
+    <text x="84" y="34" font-family="'Bebas Neue',ArialNarrow,'Arial Narrow',sans-serif" font-size="34" letter-spacing="2.5" fill="#111114">VISITAS</text>
+    <text x="85" y="56" font-family="'Bebas Neue',ArialNarrow,'Arial Narrow',sans-serif" font-size="16" letter-spacing="3.4" fill="#F2611C">MAPRO ARAGÓN</text>
   </svg>
-  <div id="subtitulo">Visitas comerciales</div>
 </header>
 <main>
 
@@ -134,59 +117,24 @@
     <div class="firma">by Alberto Torcal<small id="ver"></small></div>
   </section>
 
-  <!-- ====== FORMULARIO VISITA ====== -->
+  <!-- ====== GRABAR / EDITAR VISITA ====== -->
   <section class="vista" id="vista-form">
-    <div class="mic-grande" id="mic-visita">
-      <div class="circ">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M19 11a1 1 0 1 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.92V21a1 1 0 1 0 2 0v-3.08A7 7 0 0 0 19 11Z"/></svg>
-      </div>
-      <b id="mic-visita-txt">Pulsa y cuenta la visita</b>
-      <span>Habla con normalidad: empresa, contacto y cómo ha ido. Al terminar, pulsa otra vez. Luego repasa los campos.</span>
-    </div>
-
-    <label>Fecha de la visita</label>
+    <label>Fecha</label>
     <input type="date" id="f-fecha">
 
-    <label>¿Es cliente o proveedor?</label>
-    <div class="pills" id="f-tipo">
-      <div class="pill on" data-v="cliente">Cliente</div>
-      <div class="pill" data-v="proveedor">Proveedor</div>
-    </div>
+    <button class="grabar" id="btn-grabar" type="button">
+      <div class="circ">
+        <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M19 11a1 1 0 1 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.92V21a1 1 0 1 0 2 0v-3.08A7 7 0 0 0 19 11Z"/></svg>
+      </div>
+      <b id="grabar-txt">Pulsa y cuenta la visita</b>
+    </button>
+    <div class="estado-grab" id="estado-grab">Habla del día o de una visita. Al terminar, pulsa otra vez para parar.</div>
 
-    <label id="lbl-empresa">Cliente (nombre de la empresa)</label>
-    <div class="campo-mic">
-      <input type="text" id="f-empresa" placeholder="Talleres García S.L." autocapitalize="words">
-      <button class="mic" data-target="f-empresa" aria-label="Dictar"></button>
-    </div>
+    <label>Reporte (puedes editarlo antes de guardar)</label>
+    <textarea id="f-texto" placeholder="Aquí aparecerá lo que dictes, ya limpio. Puedes corregir o añadir lo que quieras."></textarea>
+    <button class="btn btn-sec" id="btn-pulir" type="button">✦ Limpiar y dar formato</button>
 
-    <label>Persona/s de contacto</label>
-    <div class="campo-mic">
-      <input type="text" id="f-contacto" placeholder="Juan García (jefe de compras)" autocapitalize="words">
-      <button class="mic" data-target="f-contacto" aria-label="Dictar"></button>
-    </div>
-
-    <label id="lbl-nuevo">¿Cliente nuevo?</label>
-    <div class="pills" id="f-nuevo">
-      <div class="pill" data-v="si">Sí</div>
-      <div class="pill on" data-v="no">No</div>
-    </div>
-
-    <label>Motivo de la visita</label>
-    <select id="f-motivo"></select>
-
-    <label>Impresiones / nota de la visita</label>
-    <div class="campo-mic">
-      <textarea id="f-impresiones" placeholder="Qué se ha hablado, interés, próximos pasos…"></textarea>
-      <button class="mic" data-target="f-impresiones" aria-label="Dictar"></button>
-    </div>
-
-    <label>Otros</label>
-    <div class="campo-mic">
-      <input type="text" id="f-otros" placeholder="Presupuesto pendiente, plazo, etc.">
-      <button class="mic" data-target="f-otros" aria-label="Dictar"></button>
-    </div>
-
-    <button class="btn btn-pri" id="btn-guardar">Guardar visita</button>
+    <button class="btn btn-pri" id="btn-guardar">Guardar</button>
     <button class="btn-peligro" id="btn-eliminar" style="display:none">Eliminar esta visita</button>
     <div id="estado"></div>
   </section>
@@ -204,30 +152,19 @@
     <pre class="reporte" id="rep-texto"></pre>
     <button class="btn btn-pri" id="btn-enviar-gerencia">Enviar a gerencia</button>
     <button class="btn btn-sec" id="btn-copiar">Copiar reporte</button>
-    <button class="btn btn-sec" id="btn-excel" style="display:none">Descargar / compartir Excel</button>
-    <div id="estado-rep" style="font-size:13px; text-align:center; margin-top:8px; min-height:18px; color:#8e8e93"></div>
+    <div id="estado-rep"></div>
   </section>
 
 </main>
 
 <div id="toast">Nueva versión disponible · toca para actualizar</div>
 
-<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" defer></script>
 <script>
 /* ===================== Config ===================== */
-const VERSION  = '1.0.0';
+const VERSION  = '2.0.0';
 const KEY      = 'visitas-mapro-v1';
 const GERENCIA = 'coordina@maproaragon.com';
 const COMERCIAL = 'Alberto Torcal';
-const MOTIVOS = [
-  '1 - Cortesía / detección de necesidades',
-  '2 - Proyecto potencial',
-  '3 - Proyecto en desarrollo',
-  '4 - Proyecto en fabricación',
-  '5 - Control proyecto externalizado',
-  '6 - Entrega de obsequio',
-  '7 - Otros'
-];
 const DIAS  = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
 const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 
@@ -246,35 +183,48 @@ function fechaLarga(iso){ const d=new Date(iso+'T00:00:00'); const dia=DIAS[d.ge
   return `${dia.charAt(0).toUpperCase()+dia.slice(1)}, ${d.getDate()} de ${MESES[d.getMonth()]} de ${d.getFullYear()}`; }
 function fechaCorta(iso){ const d=new Date(iso+'T00:00:00'); return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
 
+/* Limpia y da formato al texto dictado (offline): espacios, mayúsculas y punto final */
+function pulir(t){
+  if(!t) return '';
+  t = t.replace(/\s+/g,' ').replace(/\s+([,.;:!?])/g,'$1').trim();
+  // mayúscula al principio y después de . ! ? …
+  t = t.replace(/(^|[.!?…]\s+)([a-záéíóúñ])/g, (m,p,c)=>p+c.toUpperCase());
+  if(t && !/[.!?…]$/.test(t)) t += '.';
+  return t;
+}
+
 /* ===================== Datos ===================== */
-function cargar(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
+function cargar(){
+  let arr=[];
+  try{ arr=JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ arr=[]; }
+  // migración de datos antiguos (versión con campos) -> texto
+  return arr.map(v=>{
+    if(v.texto!=null) return v;
+    const t=[v.empresa, v.contacto, v.impresiones, v.otros].filter(Boolean).join('. ');
+    return { id:v.id, fecha:v.fecha, creado:v.creado, texto:t };
+  });
+}
 function guardar(arr){ localStorage.setItem(KEY, JSON.stringify(arr)); }
 function uid(){ return 'v'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
 
 /* ===================== Estado UI ===================== */
-let semanaRef = hoyISO();   // semana mostrada en la lista
-let editId    = null;       // visita en edición
-let repModo   = 'dia';      // 'dia' | 'semana'
+let semanaRef = hoyISO();
+let editId    = null;
+let repModo   = 'dia';
 
-/* ===================== Navegación ===================== */
 function verVista(id){
   $$('.vista').forEach(v=>v.classList.remove('activa'));
   $('#'+id).classList.add('activa');
   $('#btn-back').style.display = (id==='vista-lista') ? 'none' : 'block';
   window.scrollTo(0,0);
 }
-$('#btn-back').addEventListener('click', ()=>{ pararDictado(); verLista(); });
+$('#btn-back').addEventListener('click', ()=>{ pararGrabacion(); verLista(); });
 
 /* ===================== Lista / semana ===================== */
 function visitasDeSemana(refISO){
   const [ini,fin]=rangoSemana(refISO);
   return cargar().filter(v=>v.fecha>=ini && v.fecha<=fin)
                  .sort((a,b)=> a.fecha===b.fecha ? (a.creado||0)-(b.creado||0) : a.fecha.localeCompare(b.fecha));
-}
-function etiquetaTipo(v){
-  if(v.tipo==='proveedor') return '<span class="tag tag-prov">Proveedor</span>';
-  return v.nuevo ? '<span class="tag tag-cli">Cliente</span><span class="tag tag-nuevo">NUEVO</span>'
-                 : '<span class="tag tag-cli">Cliente</span>';
 }
 function verLista(){
   verVista('vista-lista');
@@ -284,25 +234,18 @@ function verLista(){
   const visitas = visitasDeSemana(semanaRef);
   const cont = $('#lista-visitas');
   if(!visitas.length){
-    cont.innerHTML = '<div class="vacio">No hay visitas registradas esta semana.<br>Pulsa <b>+ Nueva visita</b> y dicta cómo ha ido.</div>';
+    cont.innerHTML = '<div class="vacio">No hay visitas registradas esta semana.<br>Pulsa <b>+ Nueva visita</b> y cuenta cómo ha ido.</div>';
     return;
   }
-  // agrupar por día
-  let html='', diaActual='';
+  let html='', diaActual='', n=0;
   visitas.forEach(v=>{
-    if(v.fecha!==diaActual){
-      diaActual=v.fecha;
-      html += `<div class="dia-titulo">${esc(fechaLarga(v.fecha))}</div>`;
-    }
-    const motivo = MOTIVOS[(v.motivo||7)-1]||'';
+    if(v.fecha!==diaActual){ diaActual=v.fecha; n=0; html += `<div class="dia-titulo">${esc(fechaLarga(v.fecha))}</div>`; }
+    n++;
+    const resumen = (v.texto||'').replace(/\s+/g,' ').trim();
     html += `<div class="card clicable" data-id="${v.id}">
       <button class="btn-borrar-card" data-del="${v.id}" aria-label="Eliminar">🗑</button>
-      <h3>${esc(v.empresa||'(sin nombre)')} ${etiquetaTipo(v)}</h3>
-      <div class="sub">
-        ${v.contacto?('👤 '+esc(v.contacto)+'<br>'):''}
-        🎯 ${esc(motivo)}
-        ${v.impresiones?('<br>📝 '+esc(v.impresiones.slice(0,90))+(v.impresiones.length>90?'…':'')):''}
-      </div>
+      <h3>Visita ${n}</h3>
+      <div class="sub">${resumen ? esc(resumen.slice(0,150))+(resumen.length>150?'…':'') : '<i>(sin texto)</i>'}</div>
     </div>`;
   });
   cont.innerHTML = html;
@@ -319,182 +262,134 @@ $('#lista-visitas').addEventListener('click', e=>{
 $('#sem-ant').addEventListener('click', ()=>{ const d=new Date(semanaRef+'T00:00:00'); d.setDate(d.getDate()-7); semanaRef=isoLocal(d); verLista(); });
 $('#sem-sig').addEventListener('click', ()=>{ const d=new Date(semanaRef+'T00:00:00'); d.setDate(d.getDate()+7); semanaRef=isoLocal(d); verLista(); });
 
-/* ===================== Formulario ===================== */
-function rellenarMotivos(){
-  $('#f-motivo').innerHTML = MOTIVOS.map((m,i)=>`<option value="${i+1}">${esc(m)}</option>`).join('');
-}
-function setPills(grupo, valor){
-  $$('#'+grupo+' .pill').forEach(p=>p.classList.toggle('on', p.dataset.v===valor));
-}
-function getPill(grupo){ const on=$('#'+grupo+' .pill.on'); return on?on.dataset.v:''; }
-
-function refrescarEtiquetasTipo(){
-  const tipo=getPill('f-tipo');
-  $('#lbl-empresa').textContent = tipo==='proveedor' ? 'Proveedor (nombre de la empresa)' : 'Cliente (nombre de la empresa)';
-  $('#lbl-nuevo').style.display = tipo==='proveedor' ? 'none' : 'block';
-  $('#f-nuevo').style.display   = tipo==='proveedor' ? 'none' : 'flex';
-}
-
+/* ===================== Grabar / editar ===================== */
 function abrirForm(id){
-  pararDictado();
+  pararGrabacion();
   editId = id || null;
   $('#estado').textContent='';
   if(id){
-    const v = cargar().find(x=>x.id===id);
+    const v=cargar().find(x=>x.id===id);
     if(!v){ verLista(); return; }
-    $('#f-fecha').value = v.fecha;
-    setPills('f-tipo', v.tipo||'cliente');
-    $('#f-empresa').value = v.empresa||'';
-    $('#f-contacto').value = v.contacto||'';
-    setPills('f-nuevo', v.nuevo?'si':'no');
-    $('#f-motivo').value = v.motivo||1;
-    $('#f-impresiones').value = v.impresiones||'';
-    $('#f-otros').value = v.otros||'';
+    $('#f-fecha').value=v.fecha;
+    $('#f-texto').value=v.texto||'';
     $('#btn-eliminar').style.display='block';
   }else{
-    $('#f-fecha').value = hoyISO();
-    setPills('f-tipo','cliente');
-    $('#f-empresa').value='';
-    $('#f-contacto').value='';
-    setPills('f-nuevo','no');
-    $('#f-motivo').value=1;
-    $('#f-impresiones').value='';
-    $('#f-otros').value='';
+    $('#f-fecha').value=hoyISO();
+    $('#f-texto').value='';
     $('#btn-eliminar').style.display='none';
   }
-  refrescarEtiquetasTipo();
+  $('#estado-grab').textContent = haySR ? 'Habla del día o de una visita. Al terminar, pulsa otra vez para parar.'
+    : 'Tu navegador no soporta dictado por voz: escribe el reporte a mano. (En Android usa Chrome.)';
   verVista('vista-form');
 }
+$('#btn-nueva').addEventListener('click', ()=>abrirForm(null));
 
-$('#f-tipo').addEventListener('click', e=>{ const p=e.target.closest('.pill'); if(!p)return; setPills('f-tipo',p.dataset.v); refrescarEtiquetasTipo(); });
-$('#f-nuevo').addEventListener('click', e=>{ const p=e.target.closest('.pill'); if(!p)return; setPills('f-nuevo',p.dataset.v); });
-
-// auto-sugerir motivo / nuevo a partir de las impresiones (no pisa lo elegido a mano)
-function autodetectar(){
-  const t=(' '+$('#f-impresiones').value+' ').toLowerCase();
-  const reglas=[[4,/fabric|en producci|fabricando|soldando|en taller/],[3,/desarroll|en marcha|avance|ejecuci/],
-    [5,/externaliz|subcontrat|control de proyecto/],[2,/potencial|posible proyecto|oportunidad|interesad/],
-    [6,/obsequio|regalo|detalle|cesta|lote/],[1,/cortes|primera toma|detect|necesidad|presentaci/]];
-  for(const [n,rx] of reglas){ if(rx.test(t)){ $('#f-motivo').value=n; break; } }
-  if(/cliente nuevo|nuevo cliente|primera visita|no le conoc/.test(t) && getPill('f-tipo')==='cliente') setPills('f-nuevo','si');
-}
+$('#btn-pulir').addEventListener('click', ()=>{ $('#f-texto').value = pulir($('#f-texto').value); });
 
 $('#btn-guardar').addEventListener('click', ()=>{
-  pararDictado();
-  const empresa=$('#f-empresa').value.trim();
-  if(!empresa){ $('#estado').textContent='⚠ Pon al menos el nombre de la empresa.'; $('#f-empresa').focus(); return; }
+  pararGrabacion();
+  const texto = pulir($('#f-texto').value);
+  if(!texto){ $('#estado').textContent='⚠ No hay texto. Graba o escribe algo antes de guardar.'; return; }
+  $('#f-texto').value = texto;
   const arr=cargar();
-  const datos={
-    fecha: $('#f-fecha').value || hoyISO(),
-    tipo:  getPill('f-tipo')||'cliente',
-    empresa,
-    contacto: $('#f-contacto').value.trim(),
-    nuevo: getPill('f-tipo')==='cliente' && getPill('f-nuevo')==='si',
-    motivo: parseInt($('#f-motivo').value,10)||7,
-    impresiones: $('#f-impresiones').value.trim(),
-    otros: $('#f-otros').value.trim()
-  };
+  const fecha=$('#f-fecha').value||hoyISO();
   if(editId){
     const i=arr.findIndex(v=>v.id===editId);
-    if(i>=0) arr[i]={...arr[i], ...datos};
+    if(i>=0) arr[i]={...arr[i], fecha, texto};
   }else{
-    datos.id=uid(); datos.creado=Date.now(); arr.push(datos);
+    arr.push({ id:uid(), fecha, texto, creado:Date.now() });
   }
   guardar(arr);
-  semanaRef=datos.fecha;
+  semanaRef=fecha;
   verLista();
 });
 $('#btn-eliminar').addEventListener('click', ()=>{
   if(editId && confirm('¿Eliminar esta visita?')){ guardar(cargar().filter(v=>v.id!==editId)); verLista(); }
 });
-$('#btn-nueva').addEventListener('click', ()=>abrirForm(null));
 
-/* ===================== Dictado por voz (Web Speech API) ===================== */
-let recog=null, micActivo=null;
+/* ===================== Dictado por voz (robusto: start/stop fiable) ===================== */
 const haySR = !!(window.SpeechRecognition||window.webkitSpeechRecognition);
+let recog=null, grabando=false, baseTexto='', finalTexto='', errorTerminal=false;
 
-function pararDictado(){ if(recog){ try{recog.stop();}catch(e){} } }
-
-function dictar(input, btn, esGrande){
-  if(!haySR){ alert('Este navegador no permite dictado por voz.\nUsa Google Chrome en Android (o escribe a mano).'); return; }
-  if(recog){ recog.stop(); return; }               // si ya graba -> parar
+function pintarBotonGrabar(){
+  const b=$('#btn-grabar');
+  b.classList.toggle('grabando', grabando);
+  $('#grabar-txt').textContent = grabando ? 'Grabando… pulsa para PARAR' : 'Pulsa y cuenta la visita';
+  if(grabando) $('#estado-grab').textContent='● Escuchando…';
+}
+function iniciarGrabacion(){
+  if(!haySR){ $('#estado-grab').textContent='Este navegador no permite dictar. Escribe a mano (en Android usa Chrome).'; return; }
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   recog=new SR(); recog.lang='es-ES'; recog.continuous=true; recog.interimResults=true;
-  const base = input.value ? input.value.replace(/\s+$/,'')+' ' : '';
-  let finalTxt='';
-  micActivo=btn; btn.classList.add('grabando');
-  if(esGrande) $('#mic-visita-txt').textContent='Escuchando… pulsa para parar';
+  baseTexto = $('#f-texto').value ? $('#f-texto').value.replace(/\s+$/,'')+' ' : '';
+  finalTexto=''; errorTerminal=false;
+  grabando=true; pintarBotonGrabar();
   recog.onresult=e=>{
     let interim='';
     for(let i=e.resultIndex;i<e.results.length;i++){
       const tr=e.results[i][0].transcript;
-      if(e.results[i].isFinal) finalTxt+=tr+' '; else interim+=tr;
+      if(e.results[i].isFinal) finalTexto+=tr+' '; else interim+=tr;
     }
-    input.value=(base+finalTxt+interim).replace(/\s+/g,' ').trimStart();
+    $('#f-texto').value=(baseTexto+finalTexto+interim).replace(/\s+/g,' ').trimStart();
   };
-  recog.onerror=e=>{ if(e.error==='not-allowed'||e.error==='service-not-allowed') alert('Permite el micrófono para poder dictar.'); };
+  recog.onerror=e=>{
+    // errores terminales: paramos limpio (si no, onend reiniciaría en bucle)
+    if(['not-allowed','service-not-allowed','network','audio-capture'].includes(e.error)){
+      grabando=false; errorTerminal=true;
+      $('#estado-grab').textContent = (e.error==='network')
+        ? 'El dictado necesita conexión a internet. Conéctate y vuelve a intentarlo (o escribe a mano).'
+        : (e.error==='audio-capture' ? 'No se detecta micrófono.' : 'Permite el micrófono para poder dictar.');
+    }
+    // 'no-speech' / 'aborted': dejamos que onend gestione el reinicio
+  };
   recog.onend=()=>{
-    btn.classList.remove('grabando'); micActivo=null; recog=null;
-    if(esGrande) $('#mic-visita-txt').textContent='Pulsa y cuenta la visita';
-    let v=input.value.trim(); if(v) input.value=v.charAt(0).toUpperCase()+v.slice(1);
-    if(esGrande){ autodetectar(); }
+    if(grabando){ try{ recog.start(); return; }catch(_){} }   // se cortó solo por una pausa -> reanuda
+    recog=null;
+    $('#f-texto').value = pulir($('#f-texto').value);
+    pintarBotonGrabar();
+    if(!errorTerminal) $('#estado-grab').textContent='✓ Texto listo. Repásalo y guarda.';
   };
-  try{ recog.start(); }catch(e){ recog=null; btn.classList.remove('grabando'); }
+  try{ recog.start(); }catch(_){ grabando=false; recog=null; pintarBotonGrabar(); }
 }
-// micros de cada campo
-$$('.mic').forEach(btn=>{
-  btn.innerHTML='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Z"/><path d="M19 11a1 1 0 1 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.92V21a1 1 0 1 0 2 0v-3.08A7 7 0 0 0 19 11Z"/></svg>';
-  btn.addEventListener('click', ()=>dictar($('#'+btn.dataset.target), btn, false));
-});
-// micro grande -> impresiones
-$('#mic-visita').addEventListener('click', ()=>dictar($('#f-impresiones'), $('#mic-visita'), true));
-if(!haySR){ $('#mic-visita span').textContent='Tu navegador no soporta dictado por voz: escribe la nota a mano. (En Android usa Chrome.)'; }
+function pararGrabacion(){
+  grabando=false;
+  if(recog){ try{ recog.stop(); }catch(_){ try{ recog.abort(); }catch(__){} } }
+  pintarBotonGrabar();
+}
+$('#btn-grabar').addEventListener('click', ()=>{ grabando ? pararGrabacion() : iniciarGrabacion(); });
 
 /* ===================== Reportes ===================== */
-function tipoTexto(v){
-  if(v.tipo==='proveedor') return 'Proveedor';
-  return v.nuevo ? 'Cliente NUEVO' : 'Cliente';
-}
-function bloqueVisita(v, n){
-  let s = `${n}) ${(v.empresa||'(sin nombre)').toUpperCase()}  ·  ${tipoTexto(v)}\n`;
-  if(v.contacto)   s += `   Contacto: ${v.contacto}\n`;
-  s += `   Motivo: ${MOTIVOS[(v.motivo||7)-1]}\n`;
-  if(v.impresiones) s += `   Impresiones: ${v.impresiones}\n`;
-  if(v.otros)       s += `   Otros: ${v.otros}\n`;
-  return s;
-}
 function reporteDia(iso){
-  const vis = cargar().filter(v=>v.fecha===iso).sort((a,b)=>(a.creado||0)-(b.creado||0));
+  const notas = cargar().filter(v=>v.fecha===iso).sort((a,b)=>(a.creado||0)-(b.creado||0));
   let s = 'REPORTE DE VISITAS COMERCIALES — MAPRO ARAGÓN\n';
   s += `Comercial: ${COMERCIAL}\n`;
   s += `Día: ${fechaLarga(iso)}\n`;
-  s += `Total de visitas: ${vis.length}\n`;
-  s += '────────────────────────────────────────\n';
-  if(!vis.length){ s += 'Sin visitas registradas este día.\n'; return s; }
-  vis.forEach((v,i)=> s += '\n'+bloqueVisita(v,i+1));
+  s += `Visitas: ${notas.length}\n`;
+  s += '──────────────────────────────────────────\n';
+  if(!notas.length){ s += '\nSin visitas registradas este día.\n'; return s; }
+  if(notas.length===1){ s += '\n'+pulir(notas[0].texto)+'\n'; return s; }
+  notas.forEach((v,i)=> s += `\n• Visita ${i+1}\n${pulir(v.texto)}\n`);
   return s;
 }
 function reporteSemana(refISO){
   const [ini,fin]=rangoSemana(refISO);
-  const vis = visitasDeSemana(refISO);
+  const notas = visitasDeSemana(refISO);
   let s = 'SEGUIMIENTO SEMANAL DE VISITAS — MAPRO ARAGÓN\n';
   s += `Comercial: ${COMERCIAL}\n`;
   s += `Semana ${numSemanaISO(refISO)}  (${fechaCorta(ini)} – ${fechaCorta(fin)})\n`;
-  s += `Total de visitas: ${vis.length}\n`;
-  s += '════════════════════════════════════════\n';
-  if(!vis.length){ s += 'Sin visitas registradas esta semana.\n'; return s; }
+  s += `Visitas: ${notas.length}\n`;
+  s += '══════════════════════════════════════════\n';
+  if(!notas.length){ s += '\nSin visitas registradas esta semana.\n'; return s; }
   let dia='', n=0;
-  vis.forEach(v=>{
-    if(v.fecha!==dia){ dia=v.fecha; s += `\n■ ${fechaLarga(v.fecha)}\n`; }
-    s += bloqueVisita(v, ++n);
+  notas.forEach(v=>{
+    if(v.fecha!==dia){ dia=v.fecha; n=0; s += `\n■ ${fechaLarga(v.fecha)}\n`; }
+    s += `\n• Visita ${++n}\n${pulir(v.texto)}\n`;
   });
   return s;
 }
-
 function pintarReporte(){
   const esDia = repModo==='dia';
   $('#rep-fecha-wrap').style.display = esDia?'block':'none';
-  $('#btn-excel').style.display = esDia?'none':'block';
   const iso = esDia ? ($('#rep-fecha').value||hoyISO()) : semanaRef;
   $('#rep-texto').textContent = esDia ? reporteDia(iso) : reporteSemana(iso);
 }
@@ -512,7 +407,6 @@ $('#rep-seg').addEventListener('click', e=>{ const p=e.target.closest('.pill'); 
   $$('#rep-seg .pill').forEach(x=>x.classList.toggle('on',x===p)); pintarReporte(); });
 $('#rep-fecha').addEventListener('change', pintarReporte);
 
-// Enviar a gerencia (mailto: rellena destinatario coordina@maproaragon.com)
 $('#btn-enviar-gerencia').addEventListener('click', ()=>{
   const esDia = repModo==='dia';
   const iso = esDia ? ($('#rep-fecha').value||hoyISO()) : semanaRef;
@@ -520,59 +414,15 @@ $('#btn-enviar-gerencia').addEventListener('click', ()=>{
     ? `Reporte de visitas — ${fechaCorta(iso)} — ${COMERCIAL}`
     : `Seguimiento visitas semana ${numSemanaISO(iso)} — ${COMERCIAL}`;
   const cuerpo = $('#rep-texto').textContent;
-  const url = `mailto:${GERENCIA}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
   $('#estado-rep').textContent='Abriendo tu correo…';
-  window.location.href = url;
+  window.location.href = `mailto:${GERENCIA}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
 });
-
-// Copiar al portapapeles
 $('#btn-copiar').addEventListener('click', async ()=>{
   try{ await navigator.clipboard.writeText($('#rep-texto').textContent); $('#estado-rep').textContent='✓ Reporte copiado.'; }
   catch(e){ $('#estado-rep').textContent='No se pudo copiar; selecciónalo a mano.'; }
 });
 
-/* ----- Excel de la semana (igual que la tabla de gerencia) ----- */
-function blobExcelSemana(refISO){
-  if(!window.XLSX){ return null; }
-  const [ini,fin]=rangoSemana(refISO);
-  const vis=visitasDeSemana(refISO);
-  const aoa=[];
-  aoa.push(['VISITAS REALIZADAS, seguimiento semanal']);
-  aoa.push([`Semana: ${numSemanaISO(refISO)}   (${fechaCorta(ini)} – ${fechaCorta(fin)})`]);
-  aoa.push([`Comercial: ${COMERCIAL}`]);
-  aoa.push([]);
-  aoa.push(['Nº','Fecha visita','Cliente','Proveedor','Persona/s de contacto','Nuevo','Motivo','Impresiones','Otros']);
-  vis.forEach((v,i)=>{
-    aoa.push([ i+1, fechaCorta(v.fecha),
-      v.tipo==='cliente'?v.empresa:'', v.tipo==='proveedor'?v.empresa:'',
-      v.contacto||'', (v.tipo==='cliente'&&v.nuevo)?'Sí':'No', v.motivo||'', v.impresiones||'', v.otros||'' ]);
-  });
-  aoa.push([]); aoa.push(['Lista de motivos:']);
-  MOTIVOS.forEach(m=>aoa.push([m]));
-  const ws=XLSX.utils.aoa_to_sheet(aoa);
-  ws['!cols']=[{wch:5},{wch:13},{wch:24},{wch:24},{wch:26},{wch:7},{wch:8},{wch:46},{wch:26}];
-  ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:8}}];
-  const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,'Visitas');
-  const out=XLSX.write(wb,{bookType:'xlsx',type:'array'});
-  return new Blob([out],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-}
-$('#btn-excel').addEventListener('click', async ()=>{
-  const blob=blobExcelSemana(semanaRef);
-  if(!blob){ $('#estado-rep').textContent='El Excel no está disponible sin conexión la primera vez. Conéctate una vez y vuelve a abrir la app.'; return; }
-  const nombre=`Visitas semana ${numSemanaISO(semanaRef)} - ${COMERCIAL}.xlsx`;
-  const file=new File([blob],nombre,{type:blob.type});
-  if(navigator.canShare && navigator.canShare({files:[file]})){
-    try{ await navigator.share({files:[file], title:nombre, text:`Seguimiento de visitas — semana ${numSemanaISO(semanaRef)}`}); $('#estado-rep').textContent='✓ Compartido.'; return; }
-    catch(e){ if(e.name==='AbortError'){ return; } }
-  }
-  // descarga
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=nombre; a.click();
-  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
-  $('#estado-rep').textContent='✓ Excel descargado. Adjúntalo al correo a gerencia.';
-});
-
 /* ===================== Arranque + auto-actualización ===================== */
-rellenarMotivos();
 $('#ver').textContent = 'v'+VERSION;
 verLista();
 
@@ -582,9 +432,7 @@ if('serviceWorker' in navigator){
     setInterval(()=>reg.update(), 60*60*1000);
     reg.addEventListener('updatefound', ()=>{
       const nw=reg.installing;
-      nw && nw.addEventListener('statechange', ()=>{
-        if(nw.state==='installed' && navigator.serviceWorker.controller){ $('#toast').classList.add('show'); }
-      });
+      nw && nw.addEventListener('statechange', ()=>{ if(nw.state==='installed' && navigator.serviceWorker.controller) $('#toast').classList.add('show'); });
     });
   }).catch(()=>{});
   let recargado=false;
