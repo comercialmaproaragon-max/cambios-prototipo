@@ -1,4 +1,4 @@
-const CACHE = 'visitas-mapro-v3';
+const CACHE = 'visitas-mapro-v5';
 const PRECARGA = [
   './',
   './index.html',

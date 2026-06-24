@@ -21,9 +21,6 @@
   .logo-svg{height:42px; display:block; margin:0 auto}
   .btn-back{position:absolute; left:4px; top:14px; background:none; border:none; color:var(--negro);
     font-size:30px; padding:0 12px 4px; cursor:pointer; display:none; line-height:1}
-  .btn-ajustes{position:absolute; right:8px; top:15px; background:none; border:none; color:#8e8e93;
-    cursor:pointer; padding:4px; line-height:0}
-  .btn-ajustes svg{width:24px; height:24px}
   main{padding:14px; max-width:760px; margin:0 auto}
   .vista{display:none}
   .vista.activa{display:block}
@@ -44,7 +41,7 @@
   .card .btn-borrar-card{position:absolute; top:6px; right:6px; background:none; border:none;
     font-size:17px; padding:8px; cursor:pointer; color:#b0b0b4; line-height:1}
   .card h3{margin:0 26px 3px 0; font-family:'Bebas Neue',sans-serif; font-weight:400; font-size:18px; letter-spacing:.8px; color:var(--negro)}
-  .card .sub{font-size:13.5px; color:#5a5a5f; line-height:1.5}
+  .card .sub{font-size:13.5px; color:#5a5a5f; line-height:1.5; white-space:pre-wrap}
   .vacio{text-align:center; color:#8e8e93; padding:40px 16px; font-size:15px}
   .firma{text-align:center; font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:2.5px;
     color:#b0b0b4; margin-top:22px}
@@ -56,17 +53,12 @@
   .btn-pri{background:var(--naranja); color:#fff}
   .btn-pri:active{background:var(--naranja-osc)}
   .btn-sec{background:#fff; color:var(--negro); border:1.5px solid var(--negro)}
-  .btn-ia{background:linear-gradient(100deg,#7b3ff2,#c0392b 90%); color:#fff}
-  .btn-ia:disabled{opacity:.65; cursor:default}
-  .spinner{width:17px; height:17px; border:2.5px solid rgba(255,255,255,.45); border-top-color:#fff;
-    border-radius:50%; animation:giro .7s linear infinite; display:inline-block}
-  @keyframes giro{to{transform:rotate(360deg)}}
   .btn-peligro{background:none; color:var(--rojo); border:none; font-size:14px; font-weight:600; padding:14px; width:100%; cursor:pointer; margin-top:6px}
   label{display:block; font-size:13px; font-weight:600; margin:14px 0 4px; color:#48484d}
   input[type=date], textarea{width:100%; padding:11px 12px; font-size:16px;
     border:1.5px solid var(--borde); border-radius:8px; background:#fff; font-family:inherit; color:var(--texto)}
   textarea:focus, input:focus{outline:none; border-color:var(--naranja)}
-  textarea{resize:vertical; min-height:150px; line-height:1.5}
+  textarea{resize:vertical; min-height:160px; line-height:1.5}
 
   /* botón grande de grabar */
   .grabar{width:100%; border:none; border-radius:14px; background:var(--naranja); color:#fff;
@@ -105,9 +97,6 @@
     <text x="84" y="34" font-family="'Bebas Neue',ArialNarrow,'Arial Narrow',sans-serif" font-size="34" letter-spacing="2.5" fill="#111114">VISITAS</text>
     <text x="85" y="56" font-family="'Bebas Neue',ArialNarrow,'Arial Narrow',sans-serif" font-size="16" letter-spacing="3.4" fill="#F2611C">MAPRO ARAGÓN</text>
   </svg>
-  <button class="btn-ajustes" id="btn-ajustes" aria-label="Ajustes">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
-  </button>
 </header>
 <main>
 
@@ -142,9 +131,8 @@
     <div class="estado-grab" id="estado-grab">Habla del día o de una visita. Al terminar, pulsa otra vez para parar.</div>
 
     <label>Reporte (puedes editarlo antes de guardar)</label>
-    <textarea id="f-texto" placeholder="Aquí aparecerá lo que dictes. Pulsa &quot;Mejorar con IA&quot; para que quede redactado y bonito."></textarea>
-    <button class="btn btn-ia" id="btn-ia" type="button">✦ Mejorar con IA</button>
-    <button class="btn btn-sec" id="btn-pulir" type="button">Limpieza básica (sin internet)</button>
+    <textarea id="f-texto" placeholder="Aquí aparecerá lo que dictes. Pulsa «Limpiar y ordenar» para dejarlo presentable."></textarea>
+    <button class="btn btn-sec" id="btn-pulir" type="button">✦ Limpiar y ordenar</button>
 
     <button class="btn btn-pri" id="btn-guardar">Guardar</button>
     <button class="btn-peligro" id="btn-eliminar" style="display:none">Eliminar esta visita</button>
@@ -167,56 +155,19 @@
     <div id="estado-rep"></div>
   </section>
 
-  <!-- ====== AJUSTES ====== -->
-  <section class="vista" id="vista-ajustes">
-    <div class="card">
-      <h3 style="font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:21px;letter-spacing:1px;margin:0 0 6px">Mejora con IA</h3>
-      <div class="sub" style="font-size:13.5px;color:#5a5a5f;line-height:1.5">
-        Para que la IA redacte tus reportes, pega aquí tu <b>clave de API de Anthropic</b>.
-        Se guarda <b>solo en este móvil</b>, nunca se sube a internet.
-      </div>
-      <label>Clave de API (empieza por «sk-ant-…»)</label>
-      <div class="campo-mic">
-        <input type="password" id="f-apikey" placeholder="sk-ant-..." autocomplete="off" autocapitalize="off" spellcheck="false" style="flex:1">
-      </div>
-      <div id="estado-key" style="font-size:13px;margin-top:8px;min-height:18px;color:#8e8e93"></div>
-      <button class="btn btn-pri" id="btn-guardar-key">Guardar clave</button>
-      <button class="btn-peligro" id="btn-borrar-key" style="display:none">Borrar clave de este móvil</button>
-    </div>
-    <div class="card">
-      <div class="sub" style="font-size:13px;color:#6b6b70;line-height:1.55">
-        <b>¿Cómo consigo la clave?</b><br>
-        1. Entra en <b>console.anthropic.com</b> y crea una cuenta.<br>
-        2. Añade saldo (Billing) — cada reporte cuesta ~1-2 céntimos.<br>
-        3. En «API Keys», crea una clave y cópiala aquí.<br><br>
-        Sin clave, la app sigue funcionando con la limpieza básica (sin internet).
-      </div>
-    </div>
-  </section>
-
 </main>
 
 <div id="toast">Nueva versión disponible · toca para actualizar</div>
 
 <script>
 /* ===================== Config ===================== */
-const VERSION  = '3.0.0';
+const VERSION  = '4.0.1';
 const KEY      = 'visitas-mapro-v1';
-const KEY_API  = 'visitas-mapro-apikey';
 const GERENCIA = 'coordina@maproaragon.com';
 const COMERCIAL = 'Alberto Torcal';
-const MODELO_IA = 'claude-opus-4-8';   // para cambiarlo a uno más barato: 'claude-haiku-4-5'
-const SISTEMA_IA =
-  'Eres el asistente de un comercial de Mapro Aragón (calderería metálica) que convierte sus notas de voz '+
-  'transcritas en un reporte de visita comercial claro, bien redactado y fácil de leer para enviar a gerencia. '+
-  'La transcripción puede tener errores de dictado, frases sueltas o desorden. Redacta un reporte breve y '+
-  'profesional en español de España: corrige errores evidentes de transcripción, ordena las ideas, usa frases '+
-  'completas y un tono profesional pero natural. Cuando la información lo permita, estructura: empresa o cliente '+
-  'visitado, persona de contacto, motivo y temas tratados, impresiones o resultado, y próximos pasos. No inventes '+
-  'datos que no aparezcan en la transcripción. Devuelve ÚNICAMENTE el reporte final, sin saludos, sin comentarios '+
-  'tuyos, sin explicaciones y sin markdown.';
 const DIAS  = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
 const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const TERMINOS = { 'mapro':'Mapro', 'aragón':'Aragón', 'aragon':'Aragón' };
 
 /* ===================== Utilidades ===================== */
 const $  = s => document.querySelector(s);
@@ -233,17 +184,24 @@ function fechaLarga(iso){ const d=new Date(iso+'T00:00:00'); const dia=DIAS[d.ge
   return `${dia.charAt(0).toUpperCase()+dia.slice(1)}, ${d.getDate()} de ${MESES[d.getMonth()]} de ${d.getFullYear()}`; }
 function fechaCorta(iso){ const d=new Date(iso+'T00:00:00'); return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
 
-/* Limpia y da formato al texto dictado (offline): espacios, mayúsculas y punto final.
-   Conserva los saltos de línea (para no aplastar el formato de la IA). */
+/* Limpia y ordena el texto dictado (offline, sin coste).
+   Conserva los saltos de línea, corrige espacios y signos, pone mayúsculas
+   al inicio de cada frase y de cada línea, normaliza términos y cierra con punto. */
 function pulir(t){
   if(!t) return '';
-  t = t.replace(/[ \t]+/g,' ')          // colapsa espacios y tabuladores
-       .replace(/ *\n */g,'\n')         // limpia espacios alrededor de saltos
-       .replace(/\n{3,}/g,'\n\n')       // como mucho una línea en blanco seguida
-       .replace(/ +([,.;:!?])/g,'$1')   // sin espacio antes de signos
+  t = t.replace(/[ \t]+/g,' ')                                   // colapsa espacios y tabuladores
+       .replace(/ *\n */g,'\n')                                  // limpia espacios alrededor de saltos
+       .replace(/\n{3,}/g,'\n\n')                                // como mucho una línea en blanco seguida
+       .replace(/ +([,.;:!?])/g,'$1')                            // sin espacio antes de signos
+       .replace(/([,;:])(?=[A-Za-zÁÉÍÓÚÑáéíóúñ])/g,'$1 ')        // un espacio tras , ; : (no en cifras 2,5 ni 1:30)
+       .replace(/([A-Za-zÁÉÍÓÚÑáéíóúñ]{2,}[.!?…])(?=[A-Za-zÁÉÍÓÚÑáéíóúñ])/g,'$1 ') // espacio tras fin de frase (no en S.L. ni 2.5)
+       .replace(/ {2,}/g,' ')
        .trim();
-  // mayúscula al principio, tras . ! ? … y al inicio de cada línea
+  // mayúscula al inicio del texto, tras . ! ? … y al inicio de cada línea
   t = t.replace(/(^|[.!?…]\s+|\n)([a-záéíóúñ])/g, (m,p,c)=>p+c.toUpperCase());
+  // formas societarias y términos propios bien escritos
+  t = t.replace(/\bs\.\s*l\.?/gi,'S.L.').replace(/\bs\.\s*a\.?/gi,'S.A.');
+  t = t.replace(/\b(mapro|aragón|aragon)\b/gi, w => TERMINOS[w.toLowerCase()] || w);
   if(t && !/[.!?…]$/.test(t)) t += '.';
   return t;
 }
@@ -339,88 +297,11 @@ function abrirForm(id){
 }
 $('#btn-nueva').addEventListener('click', ()=>abrirForm(null));
 
-$('#btn-pulir').addEventListener('click', ()=>{ $('#f-texto').value = pulir($('#f-texto').value); $('#estado').textContent='✓ Texto limpiado.'; });
-
-/* ----- Mejorar con IA (llamada directa a la API de Claude desde el móvil) ----- */
-function tieneClave(){ return !!(localStorage.getItem(KEY_API)||'').trim(); }
-
-async function mejorarConIA(texto, fecha){
-  const clave=(localStorage.getItem(KEY_API)||'').trim();
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
-    method:'POST',
-    headers:{
-      'content-type':'application/json',
-      'x-api-key': clave,
-      'anthropic-version':'2023-06-01',
-      'anthropic-dangerous-direct-browser-access':'true'
-    },
-    body: JSON.stringify({
-      model: MODELO_IA,
-      max_tokens: 2000,
-      system: SISTEMA_IA,
-      messages:[{ role:'user', content:`Fecha de la visita: ${fechaLarga(fecha)}\n\nTranscripción del audio (a redactar):\n${texto}` }]
-    })
-  });
-  if(!resp.ok){
-    let detalle='';
-    try{ const e=await resp.json(); detalle=e?.error?.message||''; }catch(_){}
-    const err=new Error(detalle); err.status=resp.status; throw err;
-  }
-  const data=await resp.json();
-  return (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim();
-}
-
-$('#btn-ia').addEventListener('click', async ()=>{
-  pararGrabacion();
-  const texto=$('#f-texto').value.trim();
-  if(!texto){ $('#estado').textContent='⚠ Primero graba o escribe algo.'; return; }
-  if(!tieneClave()){
-    $('#estado').textContent='Necesitas configurar tu clave de IA (botón de ajustes ⚙ arriba).';
-    abrirAjustes(); return;
-  }
-  const btn=$('#btn-ia'); const original=btn.innerHTML;
-  btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Mejorando con IA…';
-  $('#estado').textContent='';
-  try{
-    const out=await mejorarConIA(texto, $('#f-fecha').value||hoyISO());
-    if(out){ $('#f-texto').value=out; $('#estado').textContent='✓ Reporte mejorado. Repásalo y guarda.'; }
-    else{ $('#estado').textContent='La IA no devolvió texto. Inténtalo de nuevo.'; }
-  }catch(e){
-    const s=e.status;
-    $('#estado').textContent =
-      s===401 ? '⚠ Clave de API no válida. Revísala en ajustes ⚙.' :
-      s===429 ? '⚠ Demasiadas peticiones. Espera un momento y reintenta.' :
-      (s===400||s===403) ? ('⚠ '+(e.message||'La API rechazó la petición. Revisa la clave y el saldo.')) :
-      '⚠ Sin conexión o error al contactar con la IA. Tu texto sigue intacto.';
-  }finally{
-    btn.disabled=false; btn.innerHTML=original;
-  }
-});
-
-/* ===================== Ajustes (clave de API) ===================== */
-function pintarEstadoKey(){
-  const hay=tieneClave();
-  $('#estado-key').innerHTML = hay ? '<span style="color:var(--verde)">✓ Clave configurada en este móvil.</span>'
-                                   : 'Sin clave: la mejora con IA está desactivada.';
-  $('#btn-borrar-key').style.display = hay ? 'block' : 'none';
-}
-function abrirAjustes(){
-  $('#f-apikey').value=''; // no mostramos la clave guardada
-  pintarEstadoKey();
-  verVista('vista-ajustes');
-}
-$('#btn-ajustes').addEventListener('click', ()=>{ pararGrabacion(); abrirAjustes(); });
-$('#btn-guardar-key').addEventListener('click', ()=>{
-  const v=$('#f-apikey').value.trim();
-  if(!v){ $('#estado-key').textContent='Pega la clave antes de guardar.'; return; }
-  if(!/^sk-ant-/.test(v)){ $('#estado-key').textContent='⚠ Una clave de Anthropic empieza por «sk-ant-». Revísala.'; return; }
-  localStorage.setItem(KEY_API, v);
-  $('#f-apikey').value='';
-  pintarEstadoKey();
-  $('#estado-key').innerHTML='<span style="color:var(--verde)">✓ Clave guardada. Ya puedes usar «Mejorar con IA».</span>';
-});
-$('#btn-borrar-key').addEventListener('click', ()=>{
-  if(confirm('¿Borrar la clave de API de este móvil?')){ localStorage.removeItem(KEY_API); pintarEstadoKey(); }
+$('#btn-pulir').addEventListener('click', ()=>{
+  const t=$('#f-texto').value.trim();
+  if(!t){ $('#estado').textContent='⚠ Primero graba o escribe algo.'; return; }
+  $('#f-texto').value = pulir(t);
+  $('#estado').textContent='✓ Texto limpiado y ordenado.';
 });
 
 $('#btn-guardar').addEventListener('click', ()=>{
@@ -444,7 +325,7 @@ $('#btn-eliminar').addEventListener('click', ()=>{
   if(editId && confirm('¿Eliminar esta visita?')){ guardar(cargar().filter(v=>v.id!==editId)); verLista(); }
 });
 
-/* ===================== Dictado por voz (robusto: start/stop fiable) ===================== */
+/* ===================== Dictado por voz (start/stop fiable) ===================== */
 const haySR = !!(window.SpeechRecognition||window.webkitSpeechRecognition);
 let recog=null, grabando=false, baseTexto='', finalTexto='', errorTerminal=false;
 
@@ -470,14 +351,12 @@ function iniciarGrabacion(){
     $('#f-texto').value=(baseTexto+finalTexto+interim).replace(/\s+/g,' ').trimStart();
   };
   recog.onerror=e=>{
-    // errores terminales: paramos limpio (si no, onend reiniciaría en bucle)
     if(['not-allowed','service-not-allowed','network','audio-capture'].includes(e.error)){
       grabando=false; errorTerminal=true;
       $('#estado-grab').textContent = (e.error==='network')
         ? 'El dictado necesita conexión a internet. Conéctate y vuelve a intentarlo (o escribe a mano).'
         : (e.error==='audio-capture' ? 'No se detecta micrófono.' : 'Permite el micrófono para poder dictar.');
     }
-    // 'no-speech' / 'aborted': dejamos que onend gestione el reinicio
   };
   recog.onend=()=>{
     if(grabando){ try{ recog.start(); return; }catch(_){} }   // se cortó solo por una pausa -> reanuda
